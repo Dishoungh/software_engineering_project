@@ -5,7 +5,7 @@ package hotline_zombie;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 
-public class View
+public class View extends JFrame
 {
 	//This will set up the JFrame (This may or may not need to be changed)
 	public View(Game game, String name, int width, int height)
