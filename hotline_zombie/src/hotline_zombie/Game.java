@@ -26,7 +26,7 @@ public class Game extends Canvas implements Runnable
 	//Starts the view panel
 	public Game() 
 	{
-		//new view(this, "Hotline Zombie", screenSize.width, screenSize.height); Uncomment this if we want to do fullscreen
+		//new View(this, "Hotline Zombie", screenSize.width, screenSize.height); Uncomment this if we want to do fullscreen
 		new View(this, "Hotline Zombie", 1600, 900);
 		start(); 										//Starts the game
 		oHandler = new Object_Handler();
