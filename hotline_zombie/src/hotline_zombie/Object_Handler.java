@@ -5,7 +5,46 @@ import java.util.ArrayList;
 //This class handles all the objects in the map (adds and deletes objects)
 public class Object_Handler 
 {
-	ArrayList<Object> objectList = new ArrayList<Object>();
+	private boolean up = false;
+	private boolean left = false;
+	private boolean right = false;
+	private boolean down = false;
+	
+	ArrayList<Object> objectList = new ArrayList<Object>();	
+	
+	
+	public boolean isUp() {
+		return up;
+	}
+
+	public void setUp(boolean up) {
+		this.up = up;
+	}
+
+	public boolean isLeft() {
+		return left;
+	}
+
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	public boolean isRight() {
+		return right;
+	}
+
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+
+	public boolean isDown() {
+		return down;
+	}
+
+	public void setDown(boolean down) {
+		this.down = down;
+	}
+
 	
 	public void addObject(Object o) //Adds an object to the handler
 	{

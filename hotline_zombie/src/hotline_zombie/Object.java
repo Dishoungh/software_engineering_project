@@ -7,17 +7,29 @@ public abstract class Object
 {
 	protected int x, y;
 	protected float xVelocity, yVelocity;
+	protected Object_Type type;
 	
-	public Object(int x, int y)
+	public Object(int x, int y, Object_Type type)
 	{
 		this.x = x;
 		this.y = y;
+		this.type = type;
 	}
 	
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	public abstract Rectangle getBounds(); //We might need this to check bounds for collision
 
+	public Object_Type getType()
+	{
+		return type;
+	}
+	
+	public void setType(Object_Type type)
+	{
+		this.type = type;
+	}
+	
 	public int getX() {
 		return x;
 	}

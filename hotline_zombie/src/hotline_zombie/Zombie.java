@@ -6,11 +6,9 @@ import java.awt.Rectangle;
 //This class will describe zombie behavior (movement, etc.)
 public class Zombie extends Object
 {
-	public Zombie(int x, int y)
+	public Zombie(int x, int y, Object_Type type)
 	{
-		super(x, y);
-		
-		xVelocity = 1;
+		super(x, y, type);
 	}
 	
 	public void tick() //Moves the object over each frame
