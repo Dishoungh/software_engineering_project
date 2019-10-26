@@ -4,6 +4,7 @@
  * 
  * 
  */
+
 //This is the main class of our game
 package hotline_zombie;
 import java.awt.Canvas;
@@ -89,7 +90,6 @@ public class Game extends Canvas implements Runnable
 			while (difference >= 1)
 			{
 				tick();			//After some time has passed, start a new frame essentially
-				//updates++;
 				difference--;
 			}
 			render();
@@ -99,7 +99,6 @@ public class Game extends Canvas implements Runnable
 			{
 				timer += 1000;
 				numFrames = 0;
-				//updates = 0;
 			}
 		}
 		stop();
