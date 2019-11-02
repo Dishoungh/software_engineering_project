@@ -26,6 +26,6 @@ public class Zombie extends Object
 	
 	public Rectangle getBounds() //We don't need this now but we will for object collision I think
 	{
-		return null;
+		return new Rectangle(x, y, 25, 25);
 	}
 }
