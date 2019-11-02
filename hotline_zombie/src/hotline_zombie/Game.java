@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable
 	
 	private Thread t; 									//Sets up a thread to be used
 	
-	private Object_Handler oHandler; 					//Object handler is here
+	private GameObjectHandler oHandler; 					//Object handler is here
 	
 	private BufferedImage level = null;                //This is our image loader
 	
@@ -36,7 +36,7 @@ public class Game extends Canvas implements Runnable
 		//new view(this, "Hotline Zombie", screenSize.width, screenSize.height); Uncomment this if we want to do fullscreen
 		new View(this, "Hotline Zombie", 1600, 900);
 		start(); 										//Starts the game
-		oHandler = new Object_Handler();
+		oHandler = new GameObjectHandler();
 		
 		//this.addKeyListener(new KeyInput(oHandler)); //Uses the object handler to listen in on key inputs
 		
@@ -152,6 +152,7 @@ public class Game extends Canvas implements Runnable
 	{
 		int width = img.getWidth();
 		int height = img.getHeight();
+		int moveIncr = 5;
 		
 		for(int x = 0; x < width; x++)
 		{
@@ -169,7 +170,7 @@ public class Game extends Canvas implements Runnable
 				
 				if (blue == 255) //Places the player wherever the blue pixel block is
 				{
-					oHandler.addObject(new Player(x*32, y*32, Object_Type.Player, oHandler));
+					oHandler.addObject(new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler));
 				}
 				
 				if (green == 255) //Places a zombie object whenever a green pixel block is detected

@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 public class Player extends Object
 {
 	int moveIncr;
-	Object_Handler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
-	public Player(int x, int y, int moveIncr, Object_Type type, Object_Handler oHandler)
+	GameObjectHandler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
+	public Player(int x, int y, int moveIncr, Object_Type type, GameObjectHandler oHandler)
 	{
 		super(x, y, type);
 		xVelocity = 0; //He does not move for now (We will add key events/event handlers later)
