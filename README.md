@@ -32,3 +32,15 @@ Roles:
 
 
 Stage III Ends on November 15, 2019
+----------------------------------------------------------------------------------------------------------------------------------------
+
+I've checked the schedule that we've created and we're just slightly behind. That's okay. Not much we're behind on anyway. I think we're still looking good as far as development is concerned. I'll just go ahead and update the schedule in here instead of sending an email to everyone.
+
+On November 1st, we were supposed to "kill zombies (delete the zombies when dead)" and develop player attributes such as ammo, health, and lives. We'll work on those later. 
+
+For now in Stage III, we will fix the bullet velocity, adjust or remake the map, move the zombies, and skin the player/zombies (November 1-15). 
+
+After that, I think we should then add the player attributes (health, ammo, lives), add a menu when the player dies (after all lives are used) asking if the user wishes to restart or exit the game, add powerups that will alter the player, zombies, or the gameplay, and add different weapons. As what powerups and weapons, we'll discuss that next meeting. This will be Stage IV (November 15-22).
+
+Then for Stage V (November 22-25), we will make finishing touches and optimize the game and make absolutely sure the game works no matter what device it's in. We'll discuss on the Discord what we'll do for the presentation, discuss what we'll put into our report, and other things to make sure we're ready for demonstration. November 23rd will be our last meeting.
+
