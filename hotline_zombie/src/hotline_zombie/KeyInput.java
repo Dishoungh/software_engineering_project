@@ -23,12 +23,16 @@ public class KeyInput extends JFrame implements KeyListener
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyChar()) {
 		case 'w':
+		case 'W':
 			goh.isUp();
 		case 's':
+		case 'S':
 			goh.isDown();
 		case 'd':
+		case 'D':
 			goh.isRight();
 		case 'a':
+		case 'A':
 			goh.isLeft();
 		}
 	}
