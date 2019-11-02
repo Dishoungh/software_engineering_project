@@ -4,13 +4,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 //This class handles all the objects in the map (adds and deletes objects)
-public class Object_Handler 
+public class GameObjectHandler 
 {
-	private boolean up = false;
-	private boolean left = false;
-	private boolean right = false;
-	private boolean down = false;
-	
+	private boolean up, down, left, right;
 	ArrayList<Object> objectList = new ArrayList<Object>();	
 	
 	
