@@ -5,6 +5,7 @@ package hotline_zombie;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 
+@SuppressWarnings("serial")
 public class View extends JFrame
 {
 	//This will set up the JFrame (This may or may not need to be changed)

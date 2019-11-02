@@ -1,23 +1,25 @@
 package hotline_zombie;
 
 import java.awt.event.KeyEvent;
-import javax.swing.JFrame;
+import java.awt.event.KeyAdapter;
+//import javax.swing.JFrame;
 import java.awt.event.*;
 
 //This class describes player movement
-public class KeyInput extends JFrame implements KeyListener
+public class KeyInput extends KeyAdapter
 {
 	private GameObjectHandler goh;
 	
 	public KeyInput(GameObjectHandler goh) {
-	    super();
+	    //super();
 	    this.goh = goh;
 	}
 	
-	
+	/*
 	/** Handle the key typed event from the text field. */
 	public void keyTyped(KeyEvent e) {
 	}
+  */
 	
 	/** Handle the key pressed event from the text field. */
 	public void keyPressed(KeyEvent e) {
@@ -25,6 +27,7 @@ public class KeyInput extends JFrame implements KeyListener
 		case 'w':
 		case 'W':
 			goh.isUp();
+      break;
 		case 's':
 		case 'S':
 			goh.isDown();
@@ -36,10 +39,9 @@ public class KeyInput extends JFrame implements KeyListener
 			goh.isLeft();
 		}
 	}
-	
+	/*
 	/** Handle the key released event from the text field. */
 	public void keyReleased(KeyEvent e) {
 	}
+  */
 }
-
-
