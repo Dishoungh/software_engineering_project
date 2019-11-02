@@ -57,8 +57,7 @@ public class GameObjectHandler
 	{
 		for(int i = 0; i < objectList.size(); ++i)
 		{
-			Object o = objectList.get(i);
-			o.tick();
+			objectList.get(i).tick();
 		}
 	}
 	
@@ -66,8 +65,7 @@ public class GameObjectHandler
 	{
 		for (int i = 0; i < objectList.size(); ++i)
 		{
-			Object o = objectList.get(i);
-			o.render(g);
+			objectList.get(i).render(g);
 		}
 	}
 }

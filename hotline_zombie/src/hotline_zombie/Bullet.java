@@ -6,9 +6,9 @@ import java.awt.Rectangle;
 
 public class Bullet extends Object
 {
-	private Object_Handler oHandler;
+	private GameObjectHandler oHandler;
 	
-	public Bullet(int x, int y, Object_Type type, Object_Handler oHandler, float vX, float vY)
+	public Bullet(int x, int y, Object_Type type, GameObjectHandler oHandler, float vX, float vY)
 	{
 		super(x, y, type);
 		this.oHandler = oHandler;

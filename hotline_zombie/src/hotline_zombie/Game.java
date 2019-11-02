@@ -18,14 +18,9 @@ import java.awt.Toolkit;
 
 public class Game extends Canvas implements Runnable
 {	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	private boolean run = false; 						//Checks to see if a thread is already running (Thread-Safety feature)
 	
-	@SuppressWarnings("unused")
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
 	
 	private Thread t; 									//Sets up a thread to be used
@@ -47,14 +42,13 @@ public class Game extends Canvas implements Runnable
 		//Sets up the camera
 		camera = new Camera(0, 0);
 		
-		//this.addKeyListener(new KeyInput(oHandler));             //Uses the object handler to listen in on key inputs
-		this.addMouseListener(new MouseInput(oHandler, camera)); //Uses the object handler and the camera to listen on mouse inputs
-		
 		//Loads the level
 		ImageLoader loader = new ImageLoader();
 		level = loader.loadImage("/test_level.png"); //We will change the name of this level. It's just a test level for now.
-		
 		loadLevel(level);
+		
+		this.addKeyListener(new KeyInput(oHandler));             //Uses the object handler to listen in on key inputs for the player
+		this.addMouseListener(new MouseInput(oHandler, camera)); //Uses the object handler and the camera to listen on mouse inputs
 		
 		
 	}
