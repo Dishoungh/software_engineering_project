@@ -9,6 +9,7 @@ public class ImageLoader
 {
 	private BufferedImage image;
 	
+	//Loads the image given the path
 	public BufferedImage loadImage(String path)
 	{
 		try
