@@ -6,7 +6,7 @@ What're doing so far is looking good. We are now in Stage III. Below is our next
 
 Next Milestones:
 - Fix Bullet Speed:
-	Sometimes the bullets go so fast that they phase through the zombies. We shall work on setting a constant speed for the bullets.
+	Sometimes the bullets go so fast that they phase through the zombies. We shall work on setting a constant speed for the bullets regardless of direction.
 	The bullets seem to be dependent on how far away the mouse is from the player (the further the faster). 
 
 - Adjust Map's Position and Re-scale:
