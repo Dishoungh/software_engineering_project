@@ -8,14 +8,12 @@ import java.awt.event.KeyAdapter;
 //This class describes player movement
 public class KeyInput extends KeyAdapter
 {
-	private GameObjectHandler goh;
 	
 	private Player player;
 	
-	public KeyInput(GameObjectHandler goh) {
-	    //super();
-	    this.goh = goh;
-	    //this.player = p;
+	public KeyInput(Player p) {
+	    super();
+	    this.player = p;
 	}
 	
 	/*
@@ -29,19 +27,19 @@ public class KeyInput extends KeyAdapter
 		switch (e.getKeyChar()) {
 		case 'w':
 		case 'W':
-			goh.setUp(true);
+			player.setUp(true);
 			break;
 		case 's':
 		case 'S':
-			goh.setDown(true);
+			player.setDown(true);
 			break;
 		case 'd':
 		case 'D':
-			goh.setRight(true);
+			player.setRight(true);
 			break;
 		case 'a':
 		case 'A':
-			goh.setLeft(true);
+			player.setLeft(true);
 			break;
 		}
 	}
@@ -51,19 +49,19 @@ public class KeyInput extends KeyAdapter
 		switch (e.getKeyChar()) {
 		case 'w':
 		case 'W':
-			goh.setUp(false);
+			player.setUp(false);
 			break;
 		case 's':
 		case 'S':
-			goh.setDown(false);
+			player.setDown(false);
 			break;
 		case 'd':
 		case 'D':
-			goh.setRight(false);
+			player.setRight(false);
 			break;
 		case 'a':
 		case 'A':
-			goh.setLeft(false);
+			player.setLeft(false);
 			break;
 		}		
 	}

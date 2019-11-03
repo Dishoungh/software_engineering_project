@@ -10,46 +10,43 @@ public class MouseInput extends MouseAdapter
 {
 	private GameObjectHandler oHandler;
 	private Camera camera;
+	private Player player;
 	
-	public MouseInput(GameObjectHandler oHandler, Camera camera)
+	//Constructor
+	public MouseInput(GameObjectHandler oHandler, Camera camera, Player player)
 	{
 		this.oHandler = oHandler;
 		this.camera = camera;
+		this.player = player;
 	}
 	
+	//Outputs a new bullet instance whenever mouse button is pressed
 	public void mousePressed(MouseEvent e)
 	{
-		for(int i = 0; i < oHandler.objectList.size(); i++)
+		//Inconsistent Speed (Sometimes the bullets will move so fast that it will blitz right past the Zombie objects)
+		float vX;
+		float vY;
+			
+		try
 		{
-			Object temp = oHandler.objectList.get(i);
-			if(temp.getType() == Object_Type.Player)
-			{
-				//Inconsistent Speed (Sometimes the bullets will move so fast that it will blitz right past the Zombie objects)
-				float vX;
-				float vY;
-				
-				try
-				{
-					vX = (((e.getX() + camera.getX()) - temp.getX()) / 10);
-					vY = (((e.getY() + camera.getY()) - temp.getY()) / 10);
-				}
-				catch(IndexOutOfBoundsException b)
-				{
-					vX = 5;
-					vY = 0;
-					System.out.println("The location you tried to shoot at is Out of Bounds!");
-				}
-				catch(NullPointerException c)
-				{
-					vX = 5;
-					vY = 0;
-					System.out.println("There has been a null exception!");
-				}
-
-				
-				oHandler.addObject(new Bullet(temp.getX(), temp.getY(), Object_Type.Bullet, oHandler, vX, vY));
-				
-			}
+			vX = (((e.getX() + camera.getX()) - player.getX()) / 10);
+			vY = (((e.getY() + camera.getY()) - player.getY()) / 10);
 		}
-	}
+		catch(IndexOutOfBoundsException b)
+		{
+			vX = 5;
+			vY = 0;
+			System.out.println("The location you tried to shoot at is Out of Bounds!");
+		}
+		catch(NullPointerException c)
+		{
+			vX = 5;
+			vY = 0;
+			System.out.println("There has been a null exception!");
+		}
+				
+		oHandler.addObject(new Bullet(player.getX(), player.getY(), Object_Type.Bullet, oHandler, vX, vY));
+			
+		}		
 }
+

@@ -19,13 +19,21 @@ import java.awt.Toolkit;
 public class Game extends Canvas implements Runnable
 {	
 
-	private boolean run = false; 						//Checks to see if a thread is already running (Thread-Safety feature)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private boolean gameRunning = false; 						//Checks to see if a thread is already running (Thread-Safety feature)
 	
+	@SuppressWarnings("unused")
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
 	
 	private Thread t; 									//Sets up a thread to be used
 	
 	private GameObjectHandler oHandler; 					//Object handler is here
+	
+	private Player player;
 	
 	private BufferedImage level = null;                //This is our image loader
 	
@@ -37,18 +45,21 @@ public class Game extends Canvas implements Runnable
 		//new view(this, "Hotline Zombie", screenSize.width, screenSize.height); Uncomment this if we want to do fullscreen
 		new View(this, "Hotline Zombie", 1600, 900);
 		start(); 										//Starts the game
-		oHandler = new GameObjectHandler();
+		oHandler = new GameObjectHandler();             //Initializes an Object Handler to handle our objects in the game
 		
 		//Sets up the camera
 		camera = new Camera(0, 0);
 		
-		//Loads the level
+		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
 		level = loader.loadImage("/test_level.png"); //We will change the name of this level. It's just a test level for now.
 		loadLevel(level);
 		
-		this.addKeyListener(new KeyInput(oHandler));             //Uses the object handler to listen in on key inputs for the player
-		this.addMouseListener(new MouseInput(oHandler, camera)); //Uses the object handler and the camera to listen on mouse inputs
+		//Adds keylistener for the key input class
+		this.addKeyListener(new KeyInput(player));               //Uses the object handler to listen in on key inputs for the player
+		
+		//Adds mouselistener for the mouse input class
+		this.addMouseListener(new MouseInput(oHandler, camera, player)); //Uses the object handler and the camera to listen on mouse inputs
 		
 		
 	}
@@ -56,21 +67,35 @@ public class Game extends Canvas implements Runnable
 	//Threading Functions Start Here
 	private void start() //Starts a thread
 	{
-		run = true;
-		t = new Thread(this);
-		t.start();
+		if(gameRunning)
+		{
+			return;
+		}
+		else
+		{
+			gameRunning = true;
+			t = new Thread(this);
+			t.start();
+		}
 	}
 	
 	private void stop() //Stops a thread
 	{
-		run = false;
-		try
+		if(!gameRunning)
 		{
-			t.join();
+			return;
 		}
-		catch(InterruptedException e)
+		else
 		{
-			e.printStackTrace();
+			gameRunning = false;
+			try
+			{
+				t.join();
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -78,13 +103,13 @@ public class Game extends Canvas implements Runnable
 	{
 		this.requestFocus();
 		long last = System.nanoTime();
-		double numTicks = 60.0;
-		double ns = 1000000000 / numTicks;
+		double tickRate = 60.0;   //60fps
+		double ns = 1000000000 / tickRate;
 		double difference = 0; //In terms of nanoseconds	
 		long timer = System.currentTimeMillis();
 		@SuppressWarnings("unused")
 		int numFrames = 0;
-		while(run)
+		while(gameRunning)
 		{
 			long now = System.nanoTime();
 			difference = difference + ((now - last) / ns);
@@ -172,7 +197,8 @@ public class Game extends Canvas implements Runnable
 				
 				if (blue == 255) //Places the player wherever the blue pixel block is
 				{
-					oHandler.addObject(new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler));
+					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
+					oHandler.addObject(player);
 				}
 				
 				if (green == 255) //Places a zombie object whenever a green pixel block is detected

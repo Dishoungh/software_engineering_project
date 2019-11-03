@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 //This class describes the player actions (movement, etc.)
 public class Player extends Object
 {
+	private boolean up, down, left, right;
 	int moveIncr;
 	GameObjectHandler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
 	public Player(int x, int y, int moveIncr, Object_Type type, GameObjectHandler oHandler)
@@ -27,8 +28,8 @@ public class Player extends Object
 		
 		//All key combinations here
 		
-		xVelocity = ((oHandler.isRight() ? 1 : 0) - (oHandler.isLeft() ? 1 : 0)) * moveIncr;
-		yVelocity = ((oHandler.isDown() ? 1 : 0) - (oHandler.isUp() ? 1 : 0)) * moveIncr;
+		xVelocity = ((this.isRight() ? 1 : 0) - (this.isLeft() ? 1 : 0)) * moveIncr;
+		yVelocity = ((this.isDown() ? 1 : 0) - (this.isUp() ? 1 : 0)) * moveIncr;
 		
 	}
 	
@@ -62,5 +63,39 @@ public class Player extends Object
 			}
 		}
 	}
+	
+	public boolean isUp() {
+		return up;
+	}
+
+	public void setUp(boolean up) {
+		this.up = up;
+	}
+
+	public boolean isLeft() {
+		return left;
+	}
+
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	public boolean isRight() {
+		return right;
+	}
+
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+
+	public boolean isDown() {
+		return down;
+	}
+
+	public void setDown(boolean down) {
+		this.down = down;
+	}
+
+	
 	
 }
