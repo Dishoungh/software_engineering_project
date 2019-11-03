@@ -3,9 +3,12 @@ package hotline_zombie;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.IndexOutOfBoundsException;
+import java.math.*;
+
 
 
 //Describes what happens when we click on the mouse (should output a bullet object)
+@SuppressWarnings("unused")
 public class MouseInput extends MouseAdapter
 {
 	private GameObjectHandler oHandler;
@@ -23,22 +26,36 @@ public class MouseInput extends MouseAdapter
 	//Outputs a new bullet instance whenever mouse button is pressed
 	public void mousePressed(MouseEvent e)
 	{
-		//Inconsistent Speed (Sometimes the bullets will move so fast that it will blitz right past the Zombie objects)
 		float vX;
 		float vY;
 			
 		try
 		{
-			vX = (((e.getX() + camera.getX()) - player.getX()) / 10);
-			vY = (((e.getY() + camera.getY()) - player.getY()) / 10);
+			float distanceX = e.getX() - player.getX() + camera.getX();
+			float distanceY = e.getY() - player.getY() + camera.getY();
+			
+			int constantSpeed = 30;
+			
+			float ratio = distanceX / distanceY;
+			
+			if(Math.abs(distanceX) >= Math.abs(distanceY))
+			{
+				vX = constantSpeed * (distanceX / Math.abs(distanceX));
+				vY = distanceY * (vX / distanceX);
+			}
+			else
+			{
+				vY = constantSpeed * (distanceY / Math.abs(distanceY));
+				vX = distanceX * (vY / distanceY);
+			}
 		}
-		catch(IndexOutOfBoundsException b)
+		catch(IndexOutOfBoundsException err1)
 		{
 			vX = 5;
 			vY = 0;
 			System.out.println("The location you tried to shoot at is Out of Bounds!");
 		}
-		catch(NullPointerException c)
+		catch(NullPointerException err2)
 		{
 			vX = 5;
 			vY = 0;
