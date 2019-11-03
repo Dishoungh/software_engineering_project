@@ -8,6 +8,10 @@ public class Bullet extends Object
 {
 	private GameObjectHandler oHandler;
 	
+	private final int WIDTH = 5;  //Width of the bullet
+	private final int HEIGHT = 5; //Height of the bullet
+	
+	//Constructor
 	public Bullet(int x, int y, Object_Type type, GameObjectHandler oHandler, float vX, float vY)
 	{
 		super(x, y, type);
@@ -18,11 +22,13 @@ public class Bullet extends Object
 		
 	}
 	
+	//Bullet position changes here
 	public void tick()
 	{
 		x += xVelocity;
 		y += yVelocity;
 		
+		//Checks if the bullet has collided with anything (Blocks or Zombies)
 		for(int i = 0; i < oHandler.objectList.size(); i++)
 		{
 			Object temp = oHandler.objectList.get(i);
@@ -39,14 +45,16 @@ public class Bullet extends Object
 		
 	}
 	
+	//Renders the bullet into view 
 	public void render(Graphics g)
 	{
 		g.setColor(Color.BLACK);
-		g.fillRect(x, y, 5, 5);
+		g.fillRect(x, y, WIDTH, HEIGHT);
 	}
 	
+	//Sets boundaries for the bullet object
 	public Rectangle getBounds()
 	{
-		return new Rectangle(x, y, 5, 5);
+		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 }
