@@ -10,6 +10,7 @@ public abstract class Object
 	protected float xVelocity, yVelocity;
 	protected Object_Type type;
 	
+	//Constructor
 	public Object(int x, int y, Object_Type type)
 	{
 		this.x = x;
@@ -26,6 +27,7 @@ public abstract class Object
 		return type;
 	}
 	
+	//Setters and Getters
 	public void setType(Object_Type type)
 	{
 		this.type = type;
