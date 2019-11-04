@@ -12,6 +12,8 @@ Next Milestones:
 - Skin Player and Zombies: We should now focus on making character models for the zombies and player and make them able to rotate in accordance to movement if we can.
 	
 - Make the zombies now move around and hunt for the player: Zombies should now move around in this stage. But no health or ammo yet (zombies nor player shouldn't die yet). We'll save that for next stage.
+
+- Add Music: Due to request, we have decided we will add music to the game. 
 	
 	
 Roles:
@@ -23,6 +25,8 @@ Roles:
 	Skin Player and Zombies:            Gavin Glenn
 	
 	Zombie Movement:                    Gavin Glenn (Partial Character Rotation), ?
+	
+	Music:                              ?
 
 
 Stage III Ends on November 15, 2019
