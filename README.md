@@ -13,7 +13,7 @@ Next Milestones:
 	
 - Make the zombies now move around and hunt for the player: Zombies should now move around in this stage. But no health or ammo yet (zombies nor player shouldn't die yet). We'll save that for next stage.
 
-- Add Music: Due to request, we have decided we will add music to the game. 
+- Add Music: Due to request, we have decided we will add music to the game. If we are going to add music, we need to put music in the game by this stage.
 	
 	
 Roles:
