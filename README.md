@@ -20,9 +20,9 @@ Roles:
 	
 	Adjust Map's Position and Re-scale: ?
 	
-	Skin Player and Zombies:            ?
+	Skin Player and Zombies:            Gavin Glenn
 	
-	Zombie Movement:                    ?
+	Zombie Movement:                    Gavin Glenn (Partial Character Rotation), ?
 
 
 Stage III Ends on November 15, 2019
