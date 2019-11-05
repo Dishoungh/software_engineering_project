@@ -20,13 +20,13 @@ Roles:
 
 	Fix Bullet Speed:                   Dishoungh White
 	
-	Adjust Map's Position and Re-scale: ?
+	Adjust Map's Position and Re-scale: Valdimar Sigurdsson
 	
 	Skin Player and Zombies:            Gavin Glenn
 	
 	Zombie Movement:                    Gavin Glenn (Partial Character Rotation), ?
 	
-	Music:                              ?
+	Music:                              Valdimar Sigurdsson
 
 
 Stage III Ends on November 15, 2019
