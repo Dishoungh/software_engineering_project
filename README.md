@@ -24,7 +24,7 @@ Roles:
 	
 	Skin Player and Zombies:            Gavin Glenn
 	
-	Zombie Movement:                    Gavin Glenn (Partial Character Rotation), ?
+	Zombie Movement:                    Gavin Glenn (Partial Character Rotation), Alaina Edwards (Movement and Player Hunt)
 	
 	Music:                              Valdimar Sigurdsson
 
