@@ -3,6 +3,8 @@ package hotline_zombie;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 //This class will load in our images for our levels
 public class ImageLoader
@@ -20,5 +22,17 @@ public class ImageLoader
 		}
 		
 		return image;
+	}
+	
+	//Rotates an image given an angle and an image
+	public BufferedImage rotImage(int degrees, BufferedImage img) {
+		double rotationRequired = Math.toRadians(degrees);
+        double locationX = img.getWidth() / 2;
+        double locationY = img.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);         
+        BufferedImage newImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        op.filter(img, newImage);
+        return(newImage);
 	}
 }
