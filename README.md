@@ -1,7 +1,7 @@
 # software_engineering_project (Hotline Zombie)
 This is the repository for our Software Engineering Project
 
-
+--------------------------------------------------------------------------------------------------------------
 What're doing so far is looking good. We are now in Stage III. Below is our next milestone goals and assigned roles:
 
 Next Milestones:
@@ -18,7 +18,7 @@ Next Milestones:
 	
 Roles:
 
-	Fix Bullet Speed:                   Dishoungh White
+	Fix Bullet Speed:                   Dishoungh White 
 	
 	Adjust Map's Position and Re-scale: Valdimar Sigurdsson
 	
@@ -41,4 +41,35 @@ For now in Stage III, we will fix the bullet velocity, adjust or remake the map,
 After that, I think we should then add the player attributes (health, ammo, lives), add a menu when the player dies (after all lives are used) asking if the user wishes to restart or exit the game, add powerups that will alter the player, zombies, or the gameplay, and add different weapons. As what powerups and weapons, we'll discuss that next meeting. This will be Stage IV (November 15-22).
 
 Then for Stage V (November 22-25), we will make finishing touches and optimize the game and make absolutely sure the game works no matter what device it's in. We'll discuss on the Discord what we'll do for the presentation, discuss what we'll put into our report, and other things to make sure we're ready for demonstration. November 23rd will be our last meeting.
+---------------------------------------------------------------------------------------------------------------
+I'm just adding this in here early so I can just get it out of the way. I'll have to type this anyway. When Stage IV starts, at that point, we should fixed the bullet speed, adjusted/fixed the map, skin the player/zombies, made the players movie, and added music. This stage is the most important step for our game. Below is our next milestone and assigned roles:
 
+Next Milestones:
+- Add player and zombie attributes such as ammo and health: Zombies should die when shot down. We will discuss how much ammo each weapon will carry initially, how much health the player and each zombie object will have, and etc. 
+
+- Add weapons (e.g. Assault Rifle, Shotgun, etc.) that behave differently than the Pistol. We will discuss what weapons we will add in the November 16th meeting. 
+
+- Add a menu for the user after the player dies to either restart or quit the game. 
+
+- Add powerups and/or ammo drops: There should be powerups that alter gameplay and/or ammo drops placed around the map that fills the player's ammo capacity. We will discuss where and how to design these elements in the November 16th meeting.
+
+- Optional: Fix initial bullet location: There is a minor bug where when the player shoots, it doesn't synch with the bullet the player model is shooting. It follows direction, but not initial location.
+
+- Optional: Add different difficulties that change the speed, damage of zombies, health, etc. 
+
+- Optional: Have the game pause when the player wish to do so: When the player decides to press the pause key (escape or 'p' or whatever), the game should properly freeze and continue after pressing the pause key again. You can add a pause menu with options as well if you wish. Just pause the game and visibly show that the game is paused. 
+
+- Optional: Reskin Block Objects
+
+- Optional: Anything else: If there's anything that you feel we should add that would enhance the project, feel free to add it but make sure it works before Stage IV ends and make sure a core element is implemented beforehand. If it doesn't work by then, drop it because we will not have time to add any more stuff.
+
+
+Roles:
+	Add Player and Zombie Attributes:   ?
+	Add Weapons:                        ?
+	Add Powerups/Ammo Drops:            ?
+	Add Death Menu:                     ?
+	
+Stage IV Ends on November 22, 2019
+--------------------
+Yeah, I know Stage IV is pretty big. There's so many ideas we can implement now to expand on our game. But, with the limited time we have at this point, I don't think we can do all of them. We will focus on implementing the core elements first. So, if any one of us decide to implement one of the above optional features, MAKE SURE YOU IMPLEMENT THE NON-CORE FEATURES FIRST. DO NOT IMPLEMENT THE OPTIONAL FEATURES AHEAD OF YOUR ASSIGNED FEATURE. We need these core features before Stage IV ends. It will be tempting to do this and this and that. If we have the time and we get these core elements implemented, go ahead but understand that we need to keep our expectations realistic and our schedules are getting tight now that the semester is getting close to its end. 
