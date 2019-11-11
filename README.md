@@ -68,7 +68,7 @@ Next Milestones:
 
 Roles:
 	
-	Add Player and Zombie Attributes:   ?
+	Add Player and Zombie Attributes:   Dishoungh White
 	
 	Add Weapons:                        ?
 	
