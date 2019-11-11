@@ -2,7 +2,9 @@ package hotline_zombie;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle; 
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+//import MouseInput.java;
 
 //This class describes the player actions (movement, etc.)
 public class Player extends Object
@@ -10,6 +12,11 @@ public class Player extends Object
 	private boolean up, down, left, right;
 	int moveIncr;
 	GameObjectHandler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
+	
+	ImageLoader loader = new ImageLoader(); //ImageLoader for Player Image
+	BufferedImage playerImage = loader.loadImage("/player.png"); //Load Player Image	
+	BufferedImage img = loader.loadImage("/player.png"); //Load Player Image for manipulation
+	
 	public Player(int x, int y, int moveIncr, Object_Type type, GameObjectHandler oHandler)
 	{
 		super(x, y, type);
@@ -33,10 +40,17 @@ public class Player extends Object
 		
 	}
 	
+	//Function to rotate player based off of original image towards mouse
+	public void rotate(int angle){
+		//Rotate player based on mouse input
+		img = loader.rotImage(angle, playerImage);
+	}
+	
 	public void render(Graphics g)
 	{
-		g.setColor(Color.BLACK); //Player will be a black rectangle for now
-		g.fillRect(x, y, 24, 36);
+		g.drawImage(img, x, y, 44, 44, null); //draw player
+		//g.setColor(Color.BLACK); //Player will be a black rectangle for now
+		//g.fillRect(x, y, 24, 36);
 	}
 	
 	public Rectangle getBounds()

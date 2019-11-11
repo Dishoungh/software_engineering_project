@@ -58,8 +58,9 @@ public class Game extends Canvas implements Runnable
 		//Adds keylistener for the key input class
 		this.addKeyListener(new KeyInput(player));               //Uses the object handler to listen in on key inputs for the player
 		
-		//Adds mouselistener for the mouse input class
+		//Adds mouselistener and mousemotionlistener for the mouse input class
 		this.addMouseListener(new MouseInput(oHandler, camera, player)); //Uses the object handler and the camera to listen on mouse inputs
+		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));
 		
 		
 	}

@@ -15,6 +15,8 @@ public class MouseInput extends MouseAdapter
 	private Camera camera;
 	private Player player;
 	
+	private ImageLoader rot = new ImageLoader();
+	
 	//Constructor
 	public MouseInput(GameObjectHandler oHandler, Camera camera, Player player)
 	{
@@ -22,6 +24,27 @@ public class MouseInput extends MouseAdapter
 		this.camera = camera;
 		this.player = player;
 	}
+	
+	//Updates every time mouse location is updated
+	public void mouseMoved(MouseEvent e)
+      {
+		//Get distances
+		float xDist = e.getX() - player.getX() + camera.getX();
+		float yDist = e.getY() - player.getY() + camera.getY();
+		
+		//Get angle to change
+		double ratio = yDist/xDist;
+		double rads = Math.atan(ratio);
+		double angle = rads * (180/Math.PI) + 90;
+		
+		//Apply fix for Atan
+		if (xDist < 0){
+			angle+=180;
+		}
+		
+		//Rotate the player to face mouse
+		player.rotate((int)angle);
+      }
 	
 	//Outputs a new bullet instance whenever mouse button is pressed
 	public void mousePressed(MouseEvent e)
