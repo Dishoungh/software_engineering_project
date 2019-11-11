@@ -41,7 +41,13 @@ For now in Stage III, we will fix the bullet velocity, adjust or remake the map,
 After that, I think we should then add the player attributes (health, ammo, lives), add a menu when the player dies (after all lives are used) asking if the user wishes to restart or exit the game, add powerups that will alter the player, zombies, or the gameplay, and add different weapons. As what powerups and weapons, we'll discuss that next meeting. This will be Stage IV (November 15-22).
 
 Then for Stage V (November 22-25), we will make finishing touches and optimize the game and make absolutely sure the game works no matter what device it's in. We'll discuss on the Discord what we'll do for the presentation, discuss what we'll put into our report, and other things to make sure we're ready for demonstration. November 23rd will be our last meeting.
----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 I'm just adding this in here early so I can just get it out of the way. I'll have to type this anyway. When Stage IV starts, at that point, we should fixed the bullet speed, adjusted/fixed the map, skin the player/zombies, made the players movie, and added music. This stage is the most important step for our game. Below is our next milestone and assigned roles:
 
 Next Milestones:
