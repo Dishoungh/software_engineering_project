@@ -45,8 +45,8 @@ public class Game extends Canvas implements Runnable
 		
 		//Loads the level
 		ImageLoader loader = new ImageLoader();
-		level = loader.loadImage("/test_level.png"); //We will change the name of this level. It's just a test level for now.
-		
+//		level = loader.loadImage("/test_level.png"); //We will change the name of this level. It's just a test level for now.
+		level = loader.loadImage("/level1MapShrinked.png");
 		loadLevel(level);
 		
 	}
@@ -153,29 +153,31 @@ public class Game extends Canvas implements Runnable
 		int width = img.getWidth();
 		int height = img.getHeight();
 		int moveIncr = 5;
+		int tileWidth = 1;
+		int tileHeight = 1;
 		
-		for(int x = 0; x < width; x++)
-		{
-			for (int y = 0; y < height; y++)
-			{
-				int pixel = img.getRGB(x, y);
+		for(int x = 0; x < tileWidth * width; x += tileWidth) {
+			for (int y = 0; y < tileHeight * height; y += tileHeight) {
+				/* I don't know why exactly the x and y have to be reversed for the image to
+				 * be read correctly, but otherwise everything is y-x oriented... */
+				int pixel = img.getRGB(y, x);
 				int red = (pixel >> 16) & 0xff; 
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if (red == 255) //Places a block whenever it detects a red pixel block
+				if (red == 255 && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
 				{
 					oHandler.addObject(new Block(x*32, y*32, Object_Type.Block));
 				}
 				
-				if (blue == 255) //Places the player wherever the blue pixel block is
-				{
-					oHandler.addObject(new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler));
-				}
-				
-				if (green == 255) //Places a zombie object whenever a green pixel block is detected
+				else if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{
 					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
+				}
+
+				else if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is
+				{
+					oHandler.addObject(new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler));
 				}
 			}
 		}
