@@ -3,6 +3,7 @@ package hotline_zombie;
 //This class describes the camera behavior. It will follow the player's movement so we can traverse the map
 public class Camera
 {
+	//Change these to float or int if something goes wrong
 	private float x, y;
 	
 	public Camera(float x, float y)
@@ -24,9 +25,9 @@ public class Camera
 			x = 0;
 		}
 		
-		if(x >= 1032)
+		if(x >= 1000)
 		{
-			x = 1032;
+			x = 1000;
 		}
 		
 		if(y <= 0)
@@ -34,9 +35,9 @@ public class Camera
 			y = 0;
 		}
 		
-		if(y >= 516)
+		if(y >= 500)
 		{
-			y = 516;
+			y = 500;
 		}
 	}
 
