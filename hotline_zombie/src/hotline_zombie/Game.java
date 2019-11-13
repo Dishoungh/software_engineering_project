@@ -202,8 +202,7 @@ public class Game extends Canvas implements Runnable
 				
 				else if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{
-					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
-					oHandler.addObject(player);
+					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));					
 				}
 
 				else if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is
