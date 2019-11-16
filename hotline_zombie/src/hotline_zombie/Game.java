@@ -42,8 +42,8 @@ public class Game extends Canvas implements Runnable
 	//Starts the view panel
 	public Game() 
 	{
-		//new view(this, "Hotline Zombie", screenSize.width, screenSize.height); Uncomment this if we want to do fullscreen
-		new View(this, "Hotline Zombie", 1600, 900);
+		new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
+		//new View(this, "Hotline Zombie", 1600, 900);
 		start(); 										//Starts the game
 		oHandler = new GameObjectHandler();             //Initializes an Object Handler to handle our objects in the game
 		
@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable
 		
 		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
-		level = loader.loadImage("/test_level.png"); //We will change the name of this level. It's just a test level for now.
+		level = loader.loadImage("/level1MapShrinked.png"); //We will change the name of this level. It's just a test level for now.
 		loadLevel(level);
 		
 		//Adds keylistener for the key input class
@@ -191,20 +191,21 @@ public class Game extends Canvas implements Runnable
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if (red == 255) //Places a block whenever it detects a red pixel block
+				if (red == 0xff && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
 				{
 					oHandler.addObject(new Block(x*32, y*32, Object_Type.Block));
 				}
 				
-				if (blue == 255) //Places the player wherever the blue pixel block is
+				
+				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
+				{
+					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
+				}
+
+				if (red == 0 && green == 0 && blue == 0xff) //Places the player wherever the blue pixel block is
 				{
 					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
 					oHandler.addObject(player);
-				}
-				
-				if (green == 255) //Places a zombie object whenever a green pixel block is detected
-				{
-					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
 				}
 			}
 		}

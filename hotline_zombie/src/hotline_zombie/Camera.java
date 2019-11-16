@@ -25,7 +25,7 @@ public class Camera
 			x = 0;
 		}
 		
-		if(x >= 1000)
+		if(x >= 10000)
 		{
 			x = 1000;
 		}
@@ -35,7 +35,7 @@ public class Camera
 			y = 0;
 		}
 		
-		if(y >= 500)
+		if(y >= 10000)
 		{
 			y = 500;
 		}
