@@ -6,7 +6,7 @@ We are now in Stage IV, the most critical part for our game. This is where we wi
 Next Milestones:
 - Add player and zombie attributes such as health: Zombies should die when shot down and player should die when health is 0.  
 
-- Make finishing touches to the map and change camera values
+- Make finishing touches to the map and change camera values and have the game play music
 
 - Add a menu for the user after the player dies to either restart or quit the game. 
 
@@ -27,13 +27,13 @@ Next Milestones:
 
 Roles:
 	
-	Add Player and Zombie Attributes:   Dishoungh White
+	Add Player and Zombie Attributes:      Dishoungh White
 	
-	Finish Map/Camera:                  Valdimar Sigurdsson
+	Finish Map/Camera & Play Soundtrack:   Valdimar Sigurdsson
 	
-	Pause:                              ?
+	Pause:                                 ?
 	
-	Add Death Menu:                     ?
+	Add Death Menu:                        ?
 	
 Stage IV Ends on November 22, 2019
 --------------------
