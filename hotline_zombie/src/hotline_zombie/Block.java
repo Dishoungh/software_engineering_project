@@ -26,7 +26,7 @@ public class Block extends Object
 	//Renders the block
 	public synchronized void render(Graphics g) 
 	{
-		g.setColor(Color.RED);
+		g.setColor(Color.RED);               //Blocks will be rendered as this color
 		g.fillRect(x, y, WIDTH, HEIGHT);
 	}
 	

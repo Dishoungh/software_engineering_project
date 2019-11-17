@@ -6,6 +6,7 @@ public class Camera
 	//Change these to float or int if something goes wrong
 	private float x, y;
 	
+	//Constructor
 	public Camera(float x, float y)
 	{
 		this.x = x;
@@ -42,19 +43,19 @@ public class Camera
 	}
 
 	//Getters and Setters for x and y
-	public float getX() {
+	public synchronized float getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public synchronized void setX(float x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public synchronized float getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public synchronized void setY(float y) {
 		this.y = y;
 	}
 	

@@ -37,7 +37,13 @@ public class Bullet extends Object
 			{
 				if(getBounds().intersects(temp.getBounds()))
 				{
-					oHandler.removeObject(this);
+					if(temp.getType() == Object_Type.Zombie)  //Decrements the zombie's health when bullet hits a zombie
+					{
+						Zombie z = (Zombie)temp; //That casting tho
+						z.decrHealth();
+					}
+					
+					oHandler.removeObject(this);  //Removes the bullet object when landing contact
 					break;
 				}
 			}

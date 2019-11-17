@@ -19,7 +19,7 @@ public class GameObjectHandler
 		objectList.remove(o);
 	}
 	
-	public void tick()				//Allows the handler to move each object
+	public synchronized void tick()				//Allows the handler to move each object
 	{
 		for(int i = 0; i < objectList.size(); i++)
 		{
@@ -27,16 +27,18 @@ public class GameObjectHandler
 		}
 	}
 	
-	public void render(Graphics g)   //Allows the handler to graphically render each object onto the screen
+	public synchronized void render(Graphics g)   //Allows the handler to graphically render each object onto the screen
 	{
 		for (int i = 0; i < objectList.size(); i++)
 		{
 			objectList.get(i).render(g);
 		}
 	}
+
 	
-	public synchronized void printArraySize()
+	public synchronized void printArraySize() //Not useful (Debugging purposes)
 	{
 		System.out.println(objectList.size());
 	}
+
 }
