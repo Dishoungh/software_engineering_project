@@ -23,7 +23,7 @@ public class Bullet extends Object
 	}
 	
 	//Bullet position changes here
-	public void tick()
+	public synchronized void tick()
 	{
 		x += xVelocity;
 		y += yVelocity;
@@ -46,7 +46,7 @@ public class Bullet extends Object
 	}
 	
 	//Renders the bullet into view 
-	public void render(Graphics g)
+	public synchronized void render(Graphics g)
 	{
 		g.setColor(Color.BLACK);
 		g.fillRect(x, y, WIDTH, HEIGHT);

@@ -42,13 +42,12 @@ public class Game extends Canvas implements Runnable
 	//Starts the view panel
 	public Game() 
 	{
-		new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
-		//new View(this, "Hotline Zombie", 1600, 900);
-		start(); 										//Starts the game
+		//new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
+		new View(this, "Hotline Zombie", 1600, 900);
 		oHandler = new GameObjectHandler();             //Initializes an Object Handler to handle our objects in the game
 		
 		//Sets up the camera
-		camera = new Camera(0, 0);
+		camera = new Camera(600, 500);
 		
 		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
@@ -61,6 +60,8 @@ public class Game extends Canvas implements Runnable
 		//Adds mouselistener and mousemotionlistener for the mouse input class
 		this.addMouseListener(new MouseInput(oHandler, camera, player)); //Uses the object handler and the camera to listen on mouse inputs
 		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));
+		
+		start(); 										//Starts the game
 		
 		
 	}
@@ -132,7 +133,7 @@ public class Game extends Canvas implements Runnable
 		stop();
 	}
 
-	public void tick() //Allows us to move each object after a frame has been started one at a time
+	public synchronized void tick() //Allows us to move each object after a frame has been started one at a time
 	{
 		//Now we need to find the player in the objectList and have the camera update in accordance to its movement
 		for (int i = 0; i < oHandler.objectList.size(); i++)
@@ -146,7 +147,7 @@ public class Game extends Canvas implements Runnable
 		oHandler.tick();
 	}
 	
-	public void render() //Allows us to graphically render the objects back each frame
+	public synchronized void render() //Allows us to graphically render the objects back each frame
 	{
 		BufferStrategy buffer = this.getBufferStrategy(); //We will create a buffer to essentially help recreate our view each frame
 		if (buffer == null) //If there is no buffer, the game will create one for us of a size of 3
@@ -161,7 +162,7 @@ public class Game extends Canvas implements Runnable
 		Graphics2D g2 = (Graphics2D)g;
 		
 		g.setColor(Color.LIGHT_GRAY);
-		//g.fillRect(0, 0, screenSize.width, screenSize.height); Get rid of this if we want to do fullscreen
+		//g.fillRect(0, 0, screenSize.width, screenSize.height); //Get rid of this if we want to do fullscreen
 		g.fillRect(0, 0, 1600, 900);
 		
 		g2.translate(-camera.getX(), -camera.getY()); //Everything between the 2 translate statements will translate all objects
@@ -191,7 +192,7 @@ public class Game extends Canvas implements Runnable
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if (red == 0xff && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
+				if (red == 255 && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
 				{
 					oHandler.addObject(new Block(x*32, y*32, Object_Type.Block));
 				}
@@ -202,7 +203,7 @@ public class Game extends Canvas implements Runnable
 					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
 				}
 
-				if (red == 0 && green == 0 && blue == 0xff) //Places the player wherever the blue pixel block is
+				if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is
 				{
 					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
 					oHandler.addObject(player);

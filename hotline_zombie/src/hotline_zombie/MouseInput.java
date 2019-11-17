@@ -51,6 +51,36 @@ public class MouseInput extends MouseAdapter
 	{
 		float vX;
 		float vY;
+		int posX;
+		int posY;
+		
+		//Calculate x position
+		if(e.getX() > player.getX() + 44) //Right bound
+		{
+			posX = player.getX() + 44;
+		}
+		else if(e.getX() < player.getX()) //Left bound
+		{
+			posX = player.getX();
+		}
+		else 
+		{
+			posX = e.getX();
+		}
+		
+		//Calculate y position
+		if(e.getY() > player.getY() + 44) //Right bound
+		{
+			posY = player.getY() + 44;
+		}
+		else if(e.getY() < player.getY()) //Left bound
+		{
+			posY = player.getY();
+		}
+		else 
+		{
+			posY = e.getY();
+		}
 			
 		try
 		{
@@ -85,8 +115,9 @@ public class MouseInput extends MouseAdapter
 			System.out.println("There has been a null exception!");
 		}
 				
-		oHandler.addObject(new Bullet(player.getX(), player.getY(), Object_Type.Bullet, oHandler, vX, vY));
-			
-		}		
+		oHandler.addObject(new Bullet(posX, posY, Object_Type.Bullet, oHandler, vX, vY));
+		
+		oHandler.printArraySize();
+	}		
 }
 

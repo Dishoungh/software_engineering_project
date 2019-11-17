@@ -26,7 +26,7 @@ public class Player extends Object
 		this.oHandler = oHandler;
 	}
 	
-	public void tick() //Player position will be updated here
+	public synchronized void tick() //Player position will be updated here
 	{
 		x += xVelocity;
 		y += yVelocity;
@@ -46,7 +46,7 @@ public class Player extends Object
 		img = loader.rotImage(angle, playerImage);
 	}
 	
-	public void render(Graphics g)
+	public synchronized void render(Graphics g)
 	{
 		g.drawImage(img, x, y, 44, 44, null); //draw player
 		//g.setColor(Color.BLACK); //Player will be a black rectangle for now
@@ -55,10 +55,10 @@ public class Player extends Object
 	
 	public Rectangle getBounds()
 	{
-		return new Rectangle(x, y, 24, 36);
+		return new Rectangle(x, y, 38, 38);
 	}
 	
-	private void hasCollided() //Keeps the player from clipping through walls
+	private synchronized void hasCollided() //Keeps the player from clipping through walls
 	{
 		for(int i = 0; i < oHandler.objectList.size(); i++)
 		{

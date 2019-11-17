@@ -18,13 +18,13 @@ public class Block extends Object
 	}
 	
 	//Blocks are still objects, so they shouldn't have any positional changes
-	public void tick() 
+	public synchronized void tick() 
 	{
 		
 	}
 	
 	//Renders the block
-	public void render(Graphics g) 
+	public synchronized void render(Graphics g) 
 	{
 		g.setColor(Color.RED);
 		g.fillRect(x, y, WIDTH, HEIGHT);

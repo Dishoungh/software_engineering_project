@@ -18,13 +18,13 @@ public class Zombie extends Object
 		super(x, y, type);
 	}
 	
-	public void tick() //Moves the object over each frame
+	public synchronized void tick() //Moves the object over each frame
 	{
 		x += xVelocity;
 		y += yVelocity;
 	}
 	
-	public void render(Graphics g) //Renders the object again each frame
+	public synchronized void render(Graphics g) //Renders the object again each frame
 	{
 		//g.drawImage(zombieImage, x, y, 25, 25, null);
 		g.drawImage(loader.rotImage(rot, zombieImage), x, y, 44, 44, null); //Draw Zombie Image (Bug with black backgrounds)
@@ -32,8 +32,8 @@ public class Zombie extends Object
 		//g.fillRect(x, y, 25, 25);
 	}
 	
-	public Rectangle getBounds() //We don't need this now but we will for object collision I think
+	public Rectangle getBounds() 
 	{
-		return new Rectangle(x, y, 25, 25);
+		return new Rectangle(x, y, 38, 38);
 	}
 }

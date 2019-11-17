@@ -13,7 +13,7 @@ public class Camera
 	}
 	
 	//Allows us to translate each object on the screen in accordance to player movement
-	public void tick(Object o)
+	public synchronized void tick(Object o)
 	{
 		x += ((o.getX() - x) - 1000/2) * 0.05f;
 		y += ((o.getY() - y) - 500/2) * 0.05f;
