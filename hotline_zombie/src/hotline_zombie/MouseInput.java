@@ -26,7 +26,7 @@ public class MouseInput extends MouseAdapter
 	}
 	
 	//Updates every time mouse location is updated
-	public void mouseMoved(MouseEvent e)
+	public synchronized void mouseMoved(MouseEvent e)
       {
 		//Get distances
 		float xDist = e.getX() - player.getX() + camera.getX();
@@ -47,10 +47,40 @@ public class MouseInput extends MouseAdapter
       }
 	
 	//Outputs a new bullet instance whenever mouse button is pressed
-	public void mousePressed(MouseEvent e)
+	public synchronized void mousePressed(MouseEvent e)
 	{
 		float vX;
 		float vY;
+		int posX;
+		int posY;
+		
+		//Calculate x position
+		if(e.getX() > player.getX() + 44) //Right bound
+		{
+			posX = player.getX() + 44;
+		}
+		else if(e.getX() < player.getX()) //Left bound
+		{
+			posX = player.getX();
+		}
+		else 
+		{
+			posX = e.getX();
+		}
+		
+		//Calculate y position
+		if(e.getY() + 100 > player.getY() + 44) //Right bound
+		{
+			posY = player.getY() + 44;
+		}
+		else if(e.getY() < player.getY()) //Left bound
+		{
+			posY = player.getY();
+		}
+		else 
+		{
+			posY = e.getY() + 20;
+		}
 			
 		try
 		{
