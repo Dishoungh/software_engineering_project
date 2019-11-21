@@ -1,7 +1,7 @@
 # software_engineering_project (Hotline Zombie)
 This is the repository for our Software Engineering Project
 --------------------------------------------------------------------------------------------------------------
-We are now in Stage IV, the most critical part for our game. This is where we will incorporate the core gameplay elements such as object attributes (ammo, health, maybe powerups, etc.), weapons, death menues, and powerups. There's a lot we can do here now to improve our game but we don't have much time left and more than likely, other classes that are going on are keeping our schedules tight. So, I will keep the scope of this stage as small or reasonably sized as possible. We will have a meeting this saturday (November 16) either on Discord or in the Acxiom Lab at JBHT at 1pm. Let everyone know if you think you'll make it to the meeting. In the meeting, we'll discuss the specifics of the features and things we will add into Stage IV.
+We are now in Stage IV, the most critical part for our game. This is where we will incorporate the core gameplay elements such as object attributes (health, maybe powerups, etc.), weapons, death menues, and a pause menu. There's a lot we can do here now to improve our game but we don't have much time left and more than likely, other classes that are going on are keeping our schedules tight. So, I will keep the scope of this stage as small or reasonably sized as possible. We will have a meeting this saturday (November 16) either on Discord or in the Acxiom Lab at JBHT at 1pm. Let everyone know if you think you'll make it to the meeting. In the meeting, we'll discuss the specifics of the features and things we will add into Stage IV.
 
 Next Milestones:
 - Add player and zombie attributes such as health: Zombies should die when shot down and player should die when health is 0.  
@@ -36,5 +36,3 @@ Roles:
 	Add Death Menu:                        ?
 	
 Stage IV Ends on November 22, 2019
---------------------
-Stage IV is pretty big. There's so many ideas we can implement now to expand on our game. But, with the limited time we have at this point, I don't think we can do all of them. We will focus on implementing the core elements first. So, if any one of us decide to implement one of the above optional features, MAKE SURE YOU IMPLEMENT YOUR CORE FEATURES FIRST. DO NOT IMPLEMENT THE OPTIONAL FEATURES AHEAD OF YOUR ASSIGNED FEATURE. We need these core features before Stage IV ends. It will be tempting to do additional cool things for the game. If you have the time and your part implemented and working, go ahead but understand that we need to keep our scope realistic and I'm sure our other classes and other responsibilities are trying to keep us busy. Keep it short and sweet.
