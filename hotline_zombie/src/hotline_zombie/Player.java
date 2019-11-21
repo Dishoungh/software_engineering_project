@@ -63,6 +63,53 @@ public class Player extends Object
 		g.drawImage(img, x, y, 44, 44, null); //draw player
 		//g.setColor(Color.BLACK); //Player will be a black rectangle for now
 		//g.fillRect(x, y, 24, 36);
+		
+		//Draw health bar
+		if(health == 5)
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 100, 15);
+		}
+		else if(health == 4)
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 80, 15);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x+50, y-20, 20, 15);
+		}
+		else if(health == 3)
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 60, 15);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x+30, y-20, 40, 15);
+		}
+		else if(health == 2)
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 40, 15);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x+10, y-20, 60, 15);	
+		}
+		else if(health == 1)
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 20, 15);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x-10, y-20, 80, 15);	
+		}
+		else
+		{
+			g.setColor(Color.GREEN);
+			g.fillRect(x-30, y-20, 0, 15);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x-30, y-20, 100, 15);	
+		}
 	}
 	
 	public Rectangle getBounds()

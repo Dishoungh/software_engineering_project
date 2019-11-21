@@ -117,8 +117,6 @@ public class MouseInput extends MouseAdapter
 		}
 				
 		oHandler.addObject(new Bullet(posX, posY, Object_Type.Bullet, oHandler, vX, vY));
-		
-		oHandler.printArraySize();
 	}		
 }
 
