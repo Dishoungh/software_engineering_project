@@ -25,6 +25,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 
 
+@SuppressWarnings("unused")
 public class Game extends Canvas implements Runnable
 {	
 
@@ -33,9 +34,9 @@ public class Game extends Canvas implements Runnable
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean gameRunning = false; 						//Checks to see if a thread is already running (Thread-Safety feature)	
+	private boolean audioPaused = false;
 	private boolean gameWon = false;
 	
-	@SuppressWarnings("unused")
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
 	private Thread t; 									//Sets up a thread to be used
 	private GameObjectHandler oHandler; 				//Object handler is here
@@ -108,6 +109,14 @@ public class Game extends Canvas implements Runnable
 	{
 		if (gameRunning)
 		{
+			
+			try {
+				audioPlayer.stop();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			gameRunning = false;
 			try
 			{
@@ -129,19 +138,45 @@ public class Game extends Canvas implements Runnable
 		double ns = 1000000000 / tickRate;
 		double difference = 0; //In terms of nanoseconds	
 
-		while(gameRunning && player.isAlive() && !gameWon)
+		while(gameRunning && player.isAlive())
 		{
 			long now = System.nanoTime();
 			difference = difference + ((now - last) / ns);
 			last = now;
-			
+	
 			if(player.getPaused() == true)
 			{
 				difference = 0;
+				
+				if(!audioPaused)
+				{
+					try {
+						audioPlayer.pause();
+					}
+					catch (Exception ex) {
+						System.out.println("Unable to pause audio.");
+					}
+					audioPaused = true;
+				}
 			}
+			else 
+			{
+				if(audioPaused)
+				{
+					try {
+						audioPlayer.resumeAudio();
+					}
+					catch (Exception ex) {
+						//System.out.println("Unable to resume audio.");
+					}
+					
+					audioPaused = false;
+				}
+			}
+			
 			while (difference >= 1)
 			{
-				tick();			//After some time has passed, start a new frame
+				tick();			//Translate all objects
 				difference--;
 			}
 			render();
@@ -150,6 +185,7 @@ public class Game extends Canvas implements Runnable
 			{
 				gameWon = true;
 			}
+			
 		}
 		
 		stop();
@@ -232,12 +268,12 @@ public class Game extends Canvas implements Runnable
 			}
 			
 			//Print Victory Menu
-			if(gameWon)
+			if(gameWon == true)
 			{
 				g.setColor(Color.BLACK);
 				Font font = new Font("Verdana", Font.BOLD, 60);
 				g.setFont(font);
-				g.drawString("You Won!", (screenSize.width / 2) - 150, screenSize.height/2);
+				g.drawString("You Win!", (screenSize.width / 2) - 150, screenSize.height/2);
 			}
 		}
 		
@@ -269,9 +305,10 @@ public class Game extends Canvas implements Runnable
 				
 				
 				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
-				{
+				{	
 					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie, oHandler));
 					oHandler.incrZombies();
+					
 				}
 
 				if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is

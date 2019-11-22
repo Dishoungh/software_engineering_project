@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 //This class describes player movement
 public class KeyInput extends KeyAdapter
 {
+	@SuppressWarnings("unused")
 	private Game game;
 	private Player player;
 	

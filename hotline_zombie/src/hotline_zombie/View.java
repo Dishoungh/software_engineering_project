@@ -4,7 +4,6 @@ package hotline_zombie;
 //This describes what the player will see
 import javax.swing.JFrame;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 @SuppressWarnings("serial")
 public class View extends JFrame

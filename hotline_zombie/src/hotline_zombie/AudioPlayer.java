@@ -45,6 +45,7 @@ public class AudioPlayer
 
 	// Work as the user enters his choice 
 
+	@SuppressWarnings("unused")
 	private void gotoChoice(int c) 
 			throws IOException, LineUnavailableException, UnsupportedAudioFileException  
 	{ 
@@ -107,8 +108,9 @@ public class AudioPlayer
 					"being played"); 
 			return; 
 		} 
-		clip.close(); 
-		resetAudioStream(); 
+		//clip.close(); 
+		//resetAudioStream(); 
+		clip.start();
 		clip.setMicrosecondPosition(currentFrame); 
 		this.play(); 
 	} 
