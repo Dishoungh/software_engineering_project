@@ -15,6 +15,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
+import javax.sound.sampled.LineUnavailableException; 
+import javax.sound.sampled.UnsupportedAudioFileException; 
+import java.io.IOException; 
 
 public class Game extends Canvas implements Runnable
 {	
@@ -40,7 +43,7 @@ public class Game extends Canvas implements Runnable
 	private Camera camera;                             //Our camera (or user view)
 
 	//Starts the view panel
-	public Game() 
+	public Game()  throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
 		//new View(this, "Hotline Zombie", 1600, 900);
@@ -62,7 +65,10 @@ public class Game extends Canvas implements Runnable
 		this.addMouseListener(new MouseInput(oHandler, camera, player)); //Uses the object handler and the camera to listen on mouse inputs
 		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));
 		
-		
+		AudioPlayer.filePath = "assets/testingSoundtrack.wav";
+		AudioPlayer ap;
+		ap = new AudioPlayer();
+		ap.play();			
 	}
 	
 	//Threading Functions Start Here
@@ -214,7 +220,19 @@ public class Game extends Canvas implements Runnable
 	//Main Function Here
 	public static void main(String[] args){
 		//Starts the game here
-		new Game();
+		try {
+			new Game();
+		}
+		catch (IOException e) {
+			System.out.println("Your shit's fucked up.");
+		}
+		catch (LineUnavailableException e) {
+			System.out.println("Your shit's really fucked up.");
+		}
+		catch (UnsupportedAudioFileException e) {
+			System.out.println("Your shit's really, really fucked up.");
+		}
+		
 	}
 
 }
