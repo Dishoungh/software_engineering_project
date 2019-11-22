@@ -9,7 +9,6 @@ public class Player extends Object
 {
 	private boolean up, down, left, right;
 	int moveIncr;
-	int width, height;
 	GameObjectHandler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
 	public Player(int x, int y, int moveIncr, Object_Type type, GameObjectHandler oHandler)
 	{
@@ -18,8 +17,6 @@ public class Player extends Object
 		yVelocity = 0;
 		this.moveIncr = moveIncr; 
 		this.oHandler = oHandler;
-		width = 24;
-		height = 36;
 	}
 	
 	public void tick() //Player position will be updated here
