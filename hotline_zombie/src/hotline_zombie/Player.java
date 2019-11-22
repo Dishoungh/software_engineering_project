@@ -74,16 +74,6 @@ public class Player extends Object
 		int playerCenterX = x + playerWidth/2;
 		int playerCenterY = y + playerHeight/2;
 		int healthWidth= 20, healthHeight = 15;
-		
-		g.setColor(Color.GREEN);
-		g.fillRect((int) (playerCenterX - (maxHealth/2.0)*healthWidth), 
-				(int) (playerCenterY - (maxHealth/2.0)*healthHeight),
-				health * healthWidth, healthHeight);
-		g.setColor(Color.RED);
-		g.fillRect((int) (playerCenterX - (maxHealth/2.0)*healthWidth + health*healthWidth), 
-				(int) (playerCenterY - (maxHealth/2.0)*healthHeight),
-				(maxHealth - health) * healthWidth, healthHeight);
-		
 	}
 	
 	public Rectangle getBounds()
