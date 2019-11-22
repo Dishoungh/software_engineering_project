@@ -7,17 +7,22 @@
 
 //This is the main class of our game
 package hotline_zombie;
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.TextArea;
 import javax.sound.sampled.LineUnavailableException; 
 import javax.sound.sampled.UnsupportedAudioFileException; 
 import java.io.IOException; 
+import javax.swing.JLabel;
 
 public class Game extends Canvas implements Runnable
 {	
@@ -26,29 +31,33 @@ public class Game extends Canvas implements Runnable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private boolean gameRunning = false; 						//Checks to see if a thread is already running (Thread-Safety feature)
-	
 	@SuppressWarnings("unused")
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
-	
 	private Thread t; 									//Sets up a thread to be used
-	
-	private GameObjectHandler oHandler; 					//Object handler is here
-	
+	private GameObjectHandler oHandler; 				//Object handler is here
 	private Player player;                             //Player object is here
 	
 	private BufferedImage level = null;                //This is our image loader
-	
-	private Camera camera;                             //Our camera (or user view). This is different from view
-													   //Provides the JFrame panel while camera allows us to give us the view of the objects in our panel.
+	// Our camera (or user view). This is different from view
+	// View provides the JFrame panel while camera allows us to give us the view of the objects in our panel.
+	private Camera camera;                             
+	private int playerIndex; // Index for player.
+	private AudioPlayer audioPlayer;
+	private View view; 
+	private TextArea pauseTextArea;
+	private JLabel pauseLabel;
+	private int gameWidth, gameHeight;
+	private Graphics g;
+	private Graphics2D g2;
 
 	//Starts the view panel
 	public Game()  throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
-
-		new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
-		//new View(this, "Hotline Zombie", 1600, 900);
+		// Change these for a different resolution.
+		gameWidth = screenSize.width;
+		gameHeight = screenSize.height;
+		view = new View(this, "Hotline Zombie", gameWidth, gameHeight); 
 
 		oHandler = new GameObjectHandler();             //Initializes an Object Handler to handle our objects in the game
 		
@@ -57,21 +66,23 @@ public class Game extends Canvas implements Runnable
 		
 		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
-		level = loader.loadImage("/level1MapShrinked.png"); //We will change the name of this level. It's just a test level for now.
+//		backgroundMap = loader.loadImage("/backgroundMap.png");
+		level = loader.loadImage("/level1MapShrinked.png");
 		loadLevel(level);
 		
 		//Adds keylistener for the key input class
-		this.addKeyListener(new KeyInput(player));               //Uses the object handler to listen in on key inputs for the player
+		this.addKeyListener(new KeyInput(this, player));               //Uses the object handler to listen in on key inputs for the player
 		
 		//Adds mouselistener and mousemotionlistener for the mouse input class
 		this.addMouseListener(new MouseInput(oHandler, camera, player));          //Uses the object handler and the camera to listen on mouse inputs
 		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));    //Adds motion listener of the mouse to rotate character models accordingly
 		
 		AudioPlayer.filePath = "assets/testingSoundtrack.wav";
-		AudioPlayer ap;
-		ap = new AudioPlayer();
-		ap.play();			
-
+		audioPlayer = new AudioPlayer();
+		audioPlayer.play();			
+		
+		pauseLabel = new JLabel("( ͡° ͜ʖ ͡°) PAUSED ( ͡° ͜ʖ ͡°)");
+		
 		start(); 										//Starts the game
 	}
 	
@@ -92,11 +103,7 @@ public class Game extends Canvas implements Runnable
 	
 	private void stop() //Stops a thread
 	{
-		if(!gameRunning)
-		{
-			return;
-		}
-		else
+		if (gameRunning)
 		{
 			gameRunning = false;
 			try
@@ -145,34 +152,28 @@ public class Game extends Canvas implements Runnable
 	public synchronized void tick() //Allows us to move each object after a frame has been started one at a time
 	{
 		//Now we need to find the player in the objectList and have the camera update in accordance to its movement
-		for (int i = 0; i < oHandler.objectList.size(); i++)
-		{
-			if(oHandler.objectList.get(i).getType() == Object_Type.Player)
-			{
-				camera.tick(oHandler.objectList.get(i));
-			}
-		}
-		
+		camera.tick(oHandler.objectList.get(playerIndex));		
 		oHandler.tick();
 	}
 	
 	public synchronized void render() //Allows us to graphically render the objects back each frame
 	{
-		BufferStrategy buffer = this.getBufferStrategy(); //We will create a buffer to essentially help recreate our view each frame
+		// We will create a buffer to essentially help recreate our view each frame
+		BufferStrategy buffer = this.getBufferStrategy(); 
 		if (buffer == null) //If there is no buffer, the game will create one for us of a size of 3
 		{
-			this.createBufferStrategy(3); 
+			createBufferStrategy(3); 
 			return;								
 		}
 		
 		//----------------------------------------------- Camera Movement Starts Here
-		Graphics g = buffer.getDrawGraphics();
+		g = buffer.getDrawGraphics();
 		//We will create a 2D graphics object here and use Graphics g for Graphics2D g2. The purpose of this is so we can easily translate our objects into our camera.
-		Graphics2D g2 = (Graphics2D)g;
+		g2 = (Graphics2D)g;
 		
 		g.setColor(Color.LIGHT_GRAY);
 
-		g.fillRect(0, 0, screenSize.width, screenSize.height); //Get rid of this if we want to do fullscreen
+		g.fillRect(0, 0, gameWidth, gameHeight); //Get rid of this if we want to do fullscreen
 		//g.fillRect(0, 0, 1600, 900);
 		
 		g2.translate(-camera.getX(), -camera.getY()); //Everything between the 2 translate statements will translate all objects
@@ -192,7 +193,6 @@ public class Game extends Canvas implements Runnable
 		int width = img.getWidth();
 		int height = img.getHeight();
 		int moveIncr = 5;
-		
 		for(int x = 0; x < width; x++)
 		{
 			for (int y = 0; y < height; y++)
@@ -217,8 +217,37 @@ public class Game extends Canvas implements Runnable
 				{
 					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
 					oHandler.addObject(player);
+					this.playerIndex = oHandler.objectList.size() - 1;
 				}
 			}
+		}
+	}
+	public void pauseGame() {
+		if (gameRunning) {
+			stop();
+			try {
+				audioPlayer.pause();
+			}
+			catch (Exception ex) {
+				System.out.println("Unable to pause audio.");
+			}
+			view.frame.add(pauseLabel, BorderLayout.CENTER);
+		    g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		    g.drawString("PAUSED", gameWidth/2, gameHeight/2);
+//	        view.frame.setSize(400,400);  
+//	        view.frame.setLayout(null);  
+//	        view.frame.setVisible(true);  			
+		}
+		else {
+			start();
+			try {
+				audioPlayer.resumeAudio();
+			}
+			catch (Exception ex) {
+				System.out.println("Unable to resume audio.");
+			}
+			
+//			view.frame.remove(pauseLabel);;
 		}
 	}
 	
@@ -229,13 +258,13 @@ public class Game extends Canvas implements Runnable
 			new Game();
 		}
 		catch (IOException e) {
-			System.out.println("Your shit's fucked up.");
+			System.out.println("Sound file not found.");
 		}
 		catch (LineUnavailableException e) {
-			System.out.println("Your shit's really fucked up.");
+			System.out.println("Line unavailable for sound file.");
 		}
 		catch (UnsupportedAudioFileException e) {
-			System.out.println("Your shit's really, really fucked up.");
+			System.out.println("Unsupported audio file.");
 		}
 		
 	}

@@ -13,20 +13,28 @@ public class Player extends Object
 	private boolean up, down, left, right;
 	
 	private boolean alive, invincible;
-	
-	private int health;         //Player's health here. When health is 0, player dies.
+	//Player's health here. When health is 0, player dies.
+	private int health, maxHealth, playerWidth, playerHeight;         
 	
 	
 	int moveIncr;
 	GameObjectHandler oHandler; //The handler will tell us the key inputs that were given to it and the player object will move in accordance to those inputs
 	
-	ImageLoader loader = new ImageLoader(); //ImageLoader for Player Image
-	BufferedImage playerImage = loader.loadImage("/player.png"); //Load Player Image	
-	BufferedImage img = loader.loadImage("/player.png"); //Load Player Image for manipulation
+	ImageLoader loader;
+	// Static player image and player image for manipulation (respectively).
+	BufferedImage playerImage, img; 
 	
 	public Player(int x, int y, int moveIncr, Object_Type type, GameObjectHandler oHandler)
 	{
 		super(x, y, type);
+		
+		playerWidth = playerHeight = 44;
+		maxHealth = 5;
+		
+		loader = new ImageLoader();
+		playerImage = loader.loadImage("/player.png");
+		img = playerImage;
+		
 		xVelocity = 0; //He does not move for now (We will add key events/event handlers later)
 		yVelocity = 0;
 		this.moveIncr = moveIncr; 
@@ -60,56 +68,21 @@ public class Player extends Object
 	
 	public synchronized void render(Graphics g)
 	{
-		g.drawImage(img, x, y, 44, 44, null); //draw player
-		//g.setColor(Color.BLACK); //Player will be a black rectangle for now
-		//g.fillRect(x, y, 24, 36);
+		g.drawImage(img, x, y, playerHeight, playerWidth, null); //draw player
 		
-		//Draw health bar
-		if(health == 5)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 100, 15);
-		}
-		else if(health == 4)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 80, 15);
-			
-			g.setColor(Color.RED);
-			g.fillRect(x+50, y-20, 20, 15);
-		}
-		else if(health == 3)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 60, 15);
-			
-			g.setColor(Color.RED);
-			g.fillRect(x+30, y-20, 40, 15);
-		}
-		else if(health == 2)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 40, 15);
-			
-			g.setColor(Color.RED);
-			g.fillRect(x+10, y-20, 60, 15);	
-		}
-		else if(health == 1)
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 20, 15);
-			
-			g.setColor(Color.RED);
-			g.fillRect(x-10, y-20, 80, 15);	
-		}
-		else
-		{
-			g.setColor(Color.GREEN);
-			g.fillRect(x-30, y-20, 0, 15);
-			
-			g.setColor(Color.RED);
-			g.fillRect(x-30, y-20, 100, 15);	
-		}
+		int playerCenterX = x + playerWidth/2;
+		int playerCenterY = y + playerHeight/2;
+		int healthWidth= 20, healthHeight = 15;
+		
+		g.setColor(Color.GREEN);
+		g.fillRect((int) (playerCenterX - (maxHealth/2.0)*healthWidth), 
+				(int) (playerCenterY - (maxHealth/2.0)*healthHeight),
+				health * healthWidth, healthHeight);
+		g.setColor(Color.RED);
+		g.fillRect((int) (playerCenterX - (maxHealth/2.0)*healthWidth + health*healthWidth), 
+				(int) (playerCenterY - (maxHealth/2.0)*healthHeight),
+				(maxHealth - health) * healthWidth, healthHeight);
+		
 	}
 	
 	public Rectangle getBounds()
