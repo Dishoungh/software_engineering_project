@@ -203,7 +203,7 @@ public class Game extends Canvas implements Runnable
 				
 				if (green == 255) //Places a zombie object whenever a green pixel block is detected
 				{
-					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
+					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie, oHandler));
 				}
 			}
 		}
