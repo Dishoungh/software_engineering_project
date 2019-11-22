@@ -44,6 +44,7 @@ public class KeyInput extends KeyAdapter
 		case 'p':
 		case 'P':
 			player.setPause(!player.getPaused());
+			break;
 		
 		}
 	}
