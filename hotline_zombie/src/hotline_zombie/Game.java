@@ -15,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
+import java.awt.Font;
 
 public class Game extends Canvas implements Runnable
 {	
@@ -25,6 +26,8 @@ public class Game extends Canvas implements Runnable
 	private static final long serialVersionUID = 1L;
 
 	private boolean gameRunning = false; 						//Checks to see if a thread is already running (Thread-Safety feature)
+	
+	private boolean gameWon = false;
 	
 	@SuppressWarnings("unused")
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
@@ -102,6 +105,7 @@ public class Game extends Canvas implements Runnable
 		}
 	}
 	
+	
 	public void run() //Runs the thread (this allows us to run the program)
 	{
 		this.requestFocus();
@@ -109,28 +113,30 @@ public class Game extends Canvas implements Runnable
 		double tickRate = 60.0;   
 		double ns = 1000000000 / tickRate;
 		double difference = 0; //In terms of nanoseconds	
-		long timer = System.currentTimeMillis();
-		@SuppressWarnings("unused")
-		int numFrames = 0;
-		while(gameRunning)
+
+		while(gameRunning && player.isAlive() && !gameWon)
 		{
 			long now = System.nanoTime();
 			difference = difference + ((now - last) / ns);
 			last = now;
+			
+			if(player.getPaused() == true)
+			{
+				difference = 0;
+			}
 			while (difference >= 1)
 			{
 				tick();			//After some time has passed, start a new frame
 				difference--;
 			}
 			render();
-			numFrames++; //Increments the number of frames
 			
-			if ((System.currentTimeMillis() - timer) > 1000)
+			if(oHandler.getZombieCount() == 0)
 			{
-				timer += 1000;
-				numFrames = 0;
+				gameWon = true;
 			}
 		}
+		
 		stop();
 	}
 
@@ -170,12 +176,66 @@ public class Game extends Canvas implements Runnable
 		oHandler.render(g);    //Object handler renders all the objects inside
 		g2.translate(camera.getX(),camera.getY());
 		//----------------------------------------------- Camera Movement Ends Here	
+		
+		//------------------------------------------- Display Health Bar
+		g.setColor(Color.GRAY);
+		g.fillRect(5, 5, 200, 32);
+		if(player.getHealth() >= 4)
+		{
+			g.setColor(Color.GREEN);
+		}
+		else if(player.getHealth() >= 2)
+		{
+			g.setColor(Color.YELLOW);
+		}
+		else 
+		{
+			g.setColor(Color.RED);
+		}
+		g.fillRect(5, 5, player.getHealth()*40, 32);
+		g.setColor(Color.BLACK);
+		g.drawRect(5, 5, 200, 32);
+		
+		
+		//----------------------------------------- Display Zombie Count
+		g.setColor(Color.BLACK);
+		g.drawString("Zombies Left: " + oHandler.getZombieCount(), 9, 50);
+		
+		
+		//Print Death Screen
+		if(!player.isAlive())
+		{
+			g.setColor(Color.BLACK);
+			Font font = new Font("Verdana", Font.BOLD, 60);
+			g.setFont(font);
+			g.drawString("You are Dead!", (screenSize.width / 2) - 150, screenSize.height/2);
+		}
+		else 
+		{
+			//Print Pause Menu if paused
+			if(player.getPaused() == true)
+			{
+				g.setColor(Color.BLACK);
+				Font font = new Font("Verdana", Font.BOLD, 60);
+				g.setFont(font);
+				g.drawString("PAUSED", (screenSize.width / 2) - 150, screenSize.height/2);
+			}
+			
+			//Print Victory Menu
+			if(gameWon)
+			{
+				g.setColor(Color.BLACK);
+				Font font = new Font("Verdana", Font.BOLD, 60);
+				g.setFont(font);
+				g.drawString("You Won!", (screenSize.width / 2) - 150, screenSize.height/2);
+			}
+		}
+		
 		g.dispose();
 		buffer.show();			//Makes the updated view visible
 		
 	}
 	//Threading Functions Stop Here
-	
 	
 	//Loads the level and scans the level blueprint and places objects accordingly
 	private synchronized void loadLevel(BufferedImage img)
@@ -202,6 +262,7 @@ public class Game extends Canvas implements Runnable
 				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{
 					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie, oHandler));
+					oHandler.incrZombies();
 				}
 
 				if (red == 0 && green == 0 && blue == 0xff) //Places the player wherever the blue pixel block is
@@ -216,6 +277,7 @@ public class Game extends Canvas implements Runnable
 	//Main Function Here
 	public static void main(String[] args){
 		//Starts the game here
+		
 		new Game();
 	}
 

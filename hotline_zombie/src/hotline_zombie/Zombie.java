@@ -54,6 +54,7 @@ public class Zombie extends Object
 		if(health <= 0)
 		{
 			oHandler.removeObject(this);
+			oHandler.decrZombies();
 		}
 	}
 	

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class GameObjectHandler 
 {
 
+	private int numZombies = 0;
 	ArrayList<Object> objectList = new ArrayList<Object>();	
 	
 	public synchronized void addObject(Object o) //Adds an object to the handler
@@ -35,6 +36,20 @@ public class GameObjectHandler
 		}
 	}
 
+	public synchronized void incrZombies()
+	{
+		numZombies++;
+	}
+	
+	public synchronized void decrZombies()
+	{
+		numZombies--;
+	}
+	
+	public synchronized int getZombieCount()
+	{
+		return numZombies;
+	}
 	
 	public synchronized void printArraySize() //Not useful (Debugging purposes)
 	{

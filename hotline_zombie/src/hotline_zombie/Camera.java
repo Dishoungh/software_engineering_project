@@ -16,8 +16,8 @@ public class Camera
 	//Allows us to translate each object on the screen in accordance to player movement
 	public synchronized void tick(Object o)
 	{
-		x += ((o.getX() - x) - 1000/2) * 0.05f;
-		y += ((o.getY() - y) - 500/2) * 0.05f;
+		x += ((o.getX() - x) - 1900/2) * 0.05f;
+		y += ((o.getY() - y) - 600/2) * 0.05f;
 		
 		
 		//These statements below will stop our camera from panning outside the map (CHANGE THESE VALUES IN ACCORDANCE TO LEVEL SIZE SO THE CAMERA BOUNDARIES AND THE MAP BOUNDARIES WILL MATCH)
@@ -26,9 +26,9 @@ public class Camera
 			x = 0;
 		}
 		
-		if(x >= 10000)
+		if(x >= 1000000)
 		{
-			x = 1000;
+			x = 1000000;
 		}
 		
 		if(y <= 0)
@@ -36,9 +36,9 @@ public class Camera
 			y = 0;
 		}
 		
-		if(y >= 10000)
+		if(y >= 1000000)
 		{
-			y = 500;
+			y = 1000000;
 		}
 	}
 

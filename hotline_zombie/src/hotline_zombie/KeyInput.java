@@ -41,6 +41,10 @@ public class KeyInput extends KeyAdapter
 		case 'A':
 			player.setLeft(true);
 			break;
+		case 'p':
+		case 'P':
+			player.setPause(!player.getPaused());
+		
 		}
 	}
 	
@@ -63,6 +67,6 @@ public class KeyInput extends KeyAdapter
 		case 'A':
 			player.setLeft(false);
 			break;
-		}		
+		}
 	}
 }
