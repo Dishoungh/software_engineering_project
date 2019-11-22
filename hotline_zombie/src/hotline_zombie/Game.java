@@ -36,22 +36,24 @@ public class Game extends Canvas implements Runnable
 	
 	private GameObjectHandler oHandler; 					//Object handler is here
 	
-	private Player player;
+	private Player player;                             //Player object is here
 	
 	private BufferedImage level = null;                //This is our image loader
 	
-	private Camera camera;                             //Our camera (or user view)
+	private Camera camera;                             //Our camera (or user view). This is different from view
+													   //Provides the JFrame panel while camera allows us to give us the view of the objects in our panel.
 
 	//Starts the view panel
 	public Game()  throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
+
 		new View(this, "Hotline Zombie", screenSize.width, screenSize.height); //Uncomment this if we want to do fullscreen
 		//new View(this, "Hotline Zombie", 1600, 900);
-		start(); 										//Starts the game
+
 		oHandler = new GameObjectHandler();             //Initializes an Object Handler to handle our objects in the game
 		
 		//Sets up the camera
-		camera = new Camera(0, 0);
+		camera = new Camera(600, 500);
 		
 		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
@@ -62,13 +64,15 @@ public class Game extends Canvas implements Runnable
 		this.addKeyListener(new KeyInput(player));               //Uses the object handler to listen in on key inputs for the player
 		
 		//Adds mouselistener and mousemotionlistener for the mouse input class
-		this.addMouseListener(new MouseInput(oHandler, camera, player)); //Uses the object handler and the camera to listen on mouse inputs
-		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));
+		this.addMouseListener(new MouseInput(oHandler, camera, player));          //Uses the object handler and the camera to listen on mouse inputs
+		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));    //Adds motion listener of the mouse to rotate character models accordingly
 		
 		AudioPlayer.filePath = "assets/testingSoundtrack.wav";
 		AudioPlayer ap;
 		ap = new AudioPlayer();
 		ap.play();			
+
+		start(); 										//Starts the game
 	}
 	
 	//Threading Functions Start Here
@@ -110,7 +114,7 @@ public class Game extends Canvas implements Runnable
 	{
 		this.requestFocus();
 		long last = System.nanoTime();
-		double tickRate = 60.0;   //60fps
+		double tickRate = 60.0;   
 		double ns = 1000000000 / tickRate;
 		double difference = 0; //In terms of nanoseconds	
 		long timer = System.currentTimeMillis();
@@ -123,7 +127,7 @@ public class Game extends Canvas implements Runnable
 			last = now;
 			while (difference >= 1)
 			{
-				tick();			//After some time has passed, start a new frame essentially
+				tick();			//After some time has passed, start a new frame
 				difference--;
 			}
 			render();
@@ -138,7 +142,7 @@ public class Game extends Canvas implements Runnable
 		stop();
 	}
 
-	public void tick() //Allows us to move each object after a frame has been started one at a time
+	public synchronized void tick() //Allows us to move each object after a frame has been started one at a time
 	{
 		//Now we need to find the player in the objectList and have the camera update in accordance to its movement
 		for (int i = 0; i < oHandler.objectList.size(); i++)
@@ -152,7 +156,7 @@ public class Game extends Canvas implements Runnable
 		oHandler.tick();
 	}
 	
-	public void render() //Allows us to graphically render the objects back each frame
+	public synchronized void render() //Allows us to graphically render the objects back each frame
 	{
 		BufferStrategy buffer = this.getBufferStrategy(); //We will create a buffer to essentially help recreate our view each frame
 		if (buffer == null) //If there is no buffer, the game will create one for us of a size of 3
@@ -167,8 +171,9 @@ public class Game extends Canvas implements Runnable
 		Graphics2D g2 = (Graphics2D)g;
 		
 		g.setColor(Color.LIGHT_GRAY);
-		//g.fillRect(0, 0, screenSize.width, screenSize.height); Get rid of this if we want to do fullscreen
-		g.fillRect(0, 0, 1600, 900);
+
+		g.fillRect(0, 0, screenSize.width, screenSize.height); //Get rid of this if we want to do fullscreen
+		//g.fillRect(0, 0, 1600, 900);
 		
 		g2.translate(-camera.getX(), -camera.getY()); //Everything between the 2 translate statements will translate all objects
 		oHandler.render(g);    //Object handler renders all the objects inside
@@ -181,8 +186,8 @@ public class Game extends Canvas implements Runnable
 	//Threading Functions Stop Here
 	
 	
-	//Load the level and scans the level blueprint and places objects accordingly
-	private void loadLevel(BufferedImage img)
+	//Loads the level and scans the level blueprint and places objects accordingly
+	private synchronized void loadLevel(BufferedImage img)
 	{
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -197,7 +202,7 @@ public class Game extends Canvas implements Runnable
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if (red == 0xff && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
+				if (red == 255 && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
 				{
 					oHandler.addObject(new Block(x*32, y*32, Object_Type.Block));
 				}
@@ -205,10 +210,10 @@ public class Game extends Canvas implements Runnable
 				
 				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{
-					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie));
+					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie, oHandler));
 				}
 
-				if (red == 0 && green == 0 && blue == 0xff) //Places the player wherever the blue pixel block is
+				if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is
 				{
 					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
 					oHandler.addObject(player);
