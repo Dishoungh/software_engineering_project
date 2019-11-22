@@ -44,7 +44,8 @@ public class KeyInput extends KeyAdapter
 			break;
 		case 'p':
 		case 'P':
-			game.pauseGame();
+			player.setPause(!player.getPaused());
+			break;
 		}
 	}
 	
@@ -67,6 +68,6 @@ public class KeyInput extends KeyAdapter
 		case 'A':
 			player.setLeft(false);
 			break;
-		}		
+		}
 	}
 }

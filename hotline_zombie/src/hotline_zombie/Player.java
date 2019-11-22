@@ -11,10 +11,10 @@ import java.awt.image.BufferedImage;
 public class Player extends Object
 {
 	private boolean up, down, left, right;
-	
-	private boolean alive, invincible;
+	private boolean alive, invincible, pauseGame;
 	//Player's health here. When health is 0, player dies.
 	private int health, maxHealth, playerWidth, playerHeight;         
+
 	
 	
 	int moveIncr;
@@ -43,6 +43,7 @@ public class Player extends Object
 		this.health = 5;   //Player starts out with 5 health
 		this.alive = true;
 		this.invincible = false;
+		this.pauseGame = false;
 	}
 	
 	public synchronized void tick() //Player position will be updated here
@@ -132,7 +133,6 @@ public class Player extends Object
 			{
 				health = 0;
 				alive = false;
-				System.out.println("Player is Dead!");   //Remove this line (Only there for debugging)
 			}
 		}
 	}
@@ -174,7 +174,27 @@ public class Player extends Object
 	{
 		this.invincible = invinc;
 	}
-
 	
+	public synchronized int getHealth()
+	{
+		return health;
+	}
+	
+	public synchronized boolean isAlive()
+	{
+		return alive;
+	}
+	
+	
+
+	public synchronized boolean getPaused()
+	{
+		return pauseGame;
+	}
+	
+	public synchronized void setPause(boolean pauseGame)
+	{
+		this.pauseGame = pauseGame;
+	}
 	
 }
