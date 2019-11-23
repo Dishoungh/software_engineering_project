@@ -23,7 +23,7 @@ public class Bullet extends Object
 	}
 	
 	//Bullet position changes here
-	public void tick()
+	public synchronized void tick()
 	{
 		x += xVelocity;
 		y += yVelocity;
@@ -37,7 +37,13 @@ public class Bullet extends Object
 			{
 				if(getBounds().intersects(temp.getBounds()))
 				{
-					oHandler.removeObject(this);
+					if(temp.getType() == Object_Type.Zombie)  //Decrements the zombie's health when bullet hits a zombie
+					{
+						Zombie z = (Zombie)temp; //That casting tho
+						z.decrHealth();
+					}
+					
+					oHandler.removeObject(this);  //Removes the bullet object when landing contact
 					break;
 				}
 			}
@@ -46,7 +52,7 @@ public class Bullet extends Object
 	}
 	
 	//Renders the bullet into view 
-	public void render(Graphics g)
+	public synchronized void render(Graphics g)
 	{
 		g.setColor(Color.BLACK);
 		g.fillRect(x, y, WIDTH, HEIGHT);

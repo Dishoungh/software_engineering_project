@@ -8,12 +8,14 @@ import java.awt.event.KeyAdapter;
 //This class describes player movement
 public class KeyInput extends KeyAdapter
 {
-	
+	@SuppressWarnings("unused")
+	private Game game;
 	private Player player;
 	
-	public KeyInput(Player p) {
+	public KeyInput(Game game, Player player) {
 	    super();
-	    this.player = p;
+	    this.game = game;
+	    this.player = player;
 	}
 	
 	/*
@@ -41,6 +43,10 @@ public class KeyInput extends KeyAdapter
 		case 'A':
 			player.setLeft(true);
 			break;
+		case 'p':
+		case 'P':
+			player.setPause(!player.getPaused());
+			break;
 		}
 	}
 	
@@ -63,6 +69,6 @@ public class KeyInput extends KeyAdapter
 		case 'A':
 			player.setLeft(false);
 			break;
-		}		
+		}
 	}
 }
