@@ -71,7 +71,7 @@ public class Game extends Canvas implements Runnable
 		//Loads the level and sets the player location
 		ImageLoader loader = new ImageLoader();
 //		backgroundMap = loader.loadImage("/backgroundMap.png");
-		level = loader.loadImage("/level1MapShrinked.png");
+		level = loader.loadImage("/level1Map.png");
 		loadLevel(level);
 		
 		//Adds keylistener for the key input class
@@ -289,9 +289,10 @@ public class Game extends Canvas implements Runnable
 		int width = img.getWidth();
 		int height = img.getHeight();
 		int moveIncr = 5;
-		for(int x = 0; x < width; x++)
+		int tileLength = 4;
+		for(int x = 0; x < width; x += tileLength)
 		{
-			for (int y = 0; y < height; y++)
+			for (int y = 0; y < height; y += tileLength)
 			{
 				int pixel = img.getRGB(x, y);
 				int red = (pixel >> 16) & 0xff; 
@@ -300,20 +301,20 @@ public class Game extends Canvas implements Runnable
 				
 				if (red == 255 && green == 0 && blue == 0) //Places a block whenever it detects a red pixel block
 				{
-					oHandler.addObject(new Block(x*32, y*32, Object_Type.Block));
+					oHandler.addObject(new Block(x/tileLength*32, y/tileLength*32, Object_Type.Block));
 				}
 				
 				
 				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{	
-					oHandler.addObject(new Zombie(x*32, y*32, Object_Type.Zombie, oHandler));
+					oHandler.addObject(new Zombie(x/tileLength*32, y/tileLength*32, Object_Type.Zombie, oHandler));
 					oHandler.incrZombies();
 					
 				}
 
 				if (red == 0 && green == 0 && blue == 255) //Places the player wherever the blue pixel block is
 				{
-					player = new Player(x*32, y*32, moveIncr, Object_Type.Player, oHandler);
+					player = new Player(x/tileLength*32, y/tileLength*32, moveIncr, Object_Type.Player, oHandler);
 					oHandler.addObject(player);
 					this.playerIndex = oHandler.objectList.size() - 1;
 				}
