@@ -74,7 +74,7 @@ public class Zombie extends Object
 		}
 	
 	}
-	private void hasCollided() //Keeps the zombie from clipping through walls and the player
+	private synchronized void hasCollided() //Keeps the zombie from clipping through walls and the player
 	{
 		for(int i = 0; i < oHandler.objectList.size(); i++)
 		{

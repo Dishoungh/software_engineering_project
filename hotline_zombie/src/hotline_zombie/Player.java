@@ -104,7 +104,7 @@ public class Player extends Object
 				{
 					if(health > 0)
 					{
-						health--;
+						decrHealth();
 					}
 					setInvincibility(true);
 					
@@ -158,6 +158,16 @@ public class Player extends Object
 
 	public void setDown(boolean down) {
 		this.down = down;
+	}
+	
+	public synchronized void decrHealth()
+	{
+		health--;
+	}
+	
+	public synchronized boolean isInvincible()
+	{
+		return invincible;
 	}
 	
 	public synchronized void setInvincibility(boolean invinc)
