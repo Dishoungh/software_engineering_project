@@ -91,6 +91,12 @@ public class Zombie extends Object
 				x += xVelocity * -1;
 				y += yVelocity * -1;
 			}
+			
+			if(temp.getType() == Object_Type.Zombie && (this.getBounds().intersects(temp.getBounds()) && temp != this))
+			{
+				x += xVelocity * -1;
+				y += yVelocity * -1;
+			}
 		}
 	}
 	
