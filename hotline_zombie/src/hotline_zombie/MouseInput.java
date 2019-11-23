@@ -4,6 +4,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.IndexOutOfBoundsException;
 import java.math.*;
+import javax.sound.sampled.LineUnavailableException; 
+import javax.sound.sampled.UnsupportedAudioFileException; 
+import java.io.IOException; 
 
 
 
@@ -14,6 +17,7 @@ public class MouseInput extends MouseAdapter
 	private GameObjectHandler oHandler;
 	private Camera camera;
 	private Player player;
+	private AudioPlayer gunFire;
 	
 	private ImageLoader rot = new ImageLoader();
 	
@@ -43,7 +47,10 @@ public class MouseInput extends MouseAdapter
 		}
 		
 		//Rotate the player to face mouse
-		player.rotate((int)angle);
+		if(player.getPaused() == false)
+		{
+			player.rotate((int)angle);
+		}
       }
 	
 	//Outputs a new bullet instance whenever mouse button is pressed
@@ -117,6 +124,22 @@ public class MouseInput extends MouseAdapter
 		}
 				
 		oHandler.addObject(new Bullet(posX, posY, Object_Type.Bullet, oHandler, vX, vY));
-	}		
+		
+		try {
+			playGunFire();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
+	
+	public synchronized void playGunFire() throws UnsupportedAudioFileException, IOException, LineUnavailableException
+	{
+		int fire = 1;
+		AudioPlayer.filePath = "assets/gunshot.wav";
+		gunFire = new AudioPlayer(false);
+		gunFire.play();
+	}
 }
 

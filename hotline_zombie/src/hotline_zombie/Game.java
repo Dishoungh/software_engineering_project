@@ -82,7 +82,7 @@ public class Game extends Canvas implements Runnable
 		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));    //Adds motion listener of the mouse to rotate character models accordingly
 		
 		AudioPlayer.filePath = "assets/testingSoundtrack.wav";
-		audioPlayer = new AudioPlayer();
+		audioPlayer = new AudioPlayer(true);
 		audioPlayer.play();			
 		
 		pauseLabel = new JLabel("( ͡° ͜ʖ ͡°) PAUSED ( ͡° ͜ʖ ͡°)");
