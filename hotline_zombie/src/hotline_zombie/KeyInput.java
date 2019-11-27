@@ -47,6 +47,12 @@ public class KeyInput extends KeyAdapter
 		case 'P':
 			player.setPause(!player.getPaused());
 			break;
+		case 'r':
+		case 'R':
+			if(player.getPaused() || !player.isAlive() || game.hasWon())
+			{
+				game.restartGame();
+			}
 		}
 	}
 	

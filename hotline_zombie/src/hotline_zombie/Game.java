@@ -1,7 +1,10 @@
-/* Team Name: ?
+/*
  * Team Members: Dishoungh White II, Alaina Edwards, Valdimar Sigurdsson, Gavin Glenn
  * Date Created: October 13, 2019
  * 
+ * Add background images
+ * Optimize the map 
+ * Improve zombie pathing
  * 
  */
 
@@ -36,6 +39,7 @@ public class Game extends Canvas implements Runnable
 	private boolean gameRunning = false; 						//Checks to see if a thread is already running (Thread-Safety feature)	
 	private boolean audioPaused = false;
 	private boolean gameWon = false;
+	private boolean restartGame = false;
 	
 	private	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //This dimension variable is here so we can automatically adjust the frame to be the size of the screen
 	private Thread t; 									//Sets up a thread to be used
@@ -49,12 +53,15 @@ public class Game extends Canvas implements Runnable
 	private int playerIndex; // Index for player.
 	private AudioPlayer audioPlayer;
 	private View view; 
+	private KeyInput keyinput;
+	private MouseInput mouseinput;
 	private TextArea pauseTextArea;
 	private JLabel pauseLabel;
 	private int gameWidth, gameHeight;
 	private Graphics g;
 	private Graphics2D g2;
-
+	
+	
 	//Starts the view panel
 	public Game()  throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
@@ -75,11 +82,13 @@ public class Game extends Canvas implements Runnable
 		loadLevel(level);
 		
 		//Adds keylistener for the key input class
-		this.addKeyListener(new KeyInput(this, player));               //Uses the object handler to listen in on key inputs for the player
+		keyinput = new KeyInput(this, player);
+		this.addKeyListener(keyinput);               //Uses the object handler to listen in on key inputs for the player
 		
 		//Adds mouselistener and mousemotionlistener for the mouse input class
-		this.addMouseListener(new MouseInput(oHandler, camera, player));          //Uses the object handler and the camera to listen on mouse inputs
-		this.addMouseMotionListener(new MouseInput(oHandler, camera, player));    //Adds motion listener of the mouse to rotate character models accordingly
+		mouseinput = new MouseInput(oHandler, camera, player);
+		this.addMouseListener(mouseinput);          //Uses the object handler and the camera to listen on mouse inputs
+		this.addMouseMotionListener(mouseinput);    //Adds motion listener of the mouse to rotate character models accordingly
 		
 		AudioPlayer.filePath = "assets/testingSoundtrack.wav";
 		audioPlayer = new AudioPlayer(true);
@@ -105,28 +114,45 @@ public class Game extends Canvas implements Runnable
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void stop() //Stops a thread
 	{
+		
 		if (gameRunning)
-		{
-			
-			try {
-				audioPlayer.stop();
-			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		{		
 			
 			gameRunning = false;
-			try
+			
+			if(restartGame)
 			{
-				t.join();
+				view.disappear();
+				view.dispose();
+				view.disable();
+				try {
+					new Game();
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			catch(InterruptedException e)
+			else 
 			{
-				e.printStackTrace();
+				try
+				{	
+					t.join();
+				}
+				catch(InterruptedException e)
+				{
+					e.printStackTrace();
+				}				
 			}
 		}
+	}
+	
+	public synchronized void restartGame()
+	{
+		restartGame = true;
+		stop();
 	}
 	
 	
@@ -189,7 +215,14 @@ public class Game extends Canvas implements Runnable
 		}
 		render();
 		
-		stop();
+		//stop();
+		
+		try {
+			audioPlayer.stop();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public synchronized void tick() //Allows us to move each object after a frame has been started one at a time
@@ -252,29 +285,41 @@ public class Game extends Canvas implements Runnable
 		//Print Death Screen
 		if(!player.isAlive())
 		{
-			g.setColor(Color.BLACK);
+			g.setColor(Color.RED);
 			Font font = new Font("Verdana", Font.BOLD, 60);
 			g.setFont(font);
-			g.drawString("You are Dead!", (screenSize.width / 2) - 150, screenSize.height/2);
+			g.drawString("You are Dead!", (screenSize.width / 2) - 220, screenSize.height/2);
+			
+			font = new Font("Verdana", Font.BOLD, 20);
+			g.setFont(font);
+			g.drawString("Press 'R' to Restart Game", (screenSize.width / 2) - 150, screenSize.height/2 + 50);
 		}
 		else 
 		{
 			//Print Pause Menu if paused
 			if(player.getPaused() == true)
 			{
-				g.setColor(Color.BLACK);
+				g.setColor(Color.GRAY);
 				Font font = new Font("Verdana", Font.BOLD, 60);
 				g.setFont(font);
 				g.drawString("PAUSED", (screenSize.width / 2) - 150, screenSize.height/2);
+				
+				font = new Font("Verdana", Font.BOLD, 20);
+				g.setFont(font);
+				g.drawString("Press 'R' to Restart Game", (screenSize.width / 2) - 160, screenSize.height/2 + 50);
 			}
 			
 			//Print Victory Menu
 			if(gameWon == true)
 			{
-				g.setColor(Color.BLACK);
+				g.setColor(Color.GREEN);
 				Font font = new Font("Verdana", Font.BOLD, 60);
 				g.setFont(font);
 				g.drawString("You Win!", (screenSize.width / 2) - 150, screenSize.height/2);
+				
+				font = new Font("Verdana", Font.BOLD, 20);
+				g.setFont(font);
+				g.drawString("Press 'R' to Restart Game", (screenSize.width / 2) - 140, screenSize.height/2 + 50);
 			}
 		}
 		
@@ -308,7 +353,7 @@ public class Game extends Canvas implements Runnable
 				
 				if (red == 0 && green == 255 && blue == 0) //Places a zombie object whenever a green pixel block is detected
 				{	
-					if(oHandler.getZombieCount() < 75)
+					if(oHandler.getZombieCount() < 60)
 					{
 						oHandler.addObject(new Zombie(x/tileLength*32, y/tileLength*32, Object_Type.Zombie, oHandler));
 						oHandler.incrZombies();
@@ -325,6 +370,8 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 	}
+	
+	/*
 	public void pauseGame() {
 		if (gameRunning) {
 			stop();
@@ -351,7 +398,13 @@ public class Game extends Canvas implements Runnable
 			}
 			
 //			view.frame.remove(pauseLabel);;
-		}
+		
+	}
+	*/
+	
+	public synchronized boolean hasWon()
+	{
+		return gameWon;
 	}
 	
 	//Main Function Here

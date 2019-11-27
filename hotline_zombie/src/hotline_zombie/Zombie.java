@@ -5,14 +5,15 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.math.*;
 
 //This class will describe zombie behavior (movement, etc.)
 @SuppressWarnings("unused")
 public class Zombie extends Object
 {
 	GameObjectHandler oHandler;
-	ImageLoader loader = new ImageLoader(); //ImageLoader for zombie Image
-	BufferedImage zombieImage = loader.loadImage("/zombie.png"); //Load Zombie Image
+	ImageLoader loader; //ImageLoader for zombie Image
+	BufferedImage zombieImage, img;
 	int rot = 5;
 	
 	
@@ -23,6 +24,10 @@ public class Zombie extends Object
 		super(x, y, type);
 		health = 2;
 		this.oHandler = oHandler;
+		
+		loader = new ImageLoader();
+		zombieImage = loader.loadImage("/zombie.png"); //Load Zombie Image
+		img = zombieImage;
 	}
 	
 	public synchronized void tick() //Moves the object over each frame
@@ -31,6 +36,48 @@ public class Zombie extends Object
 		y += yVelocity;
 		
 		hasCollided();
+		
+		//Set all possible movement angles
+		int angle = 0;
+		
+		if(xVelocity == 0 && yVelocity == 0) //Standing still
+		{
+			//angle = 0;
+		}
+		else if(xVelocity > 0 && yVelocity == 0) //Only moving right
+		{
+			angle = 90;
+		}
+		else if(xVelocity < 0 && yVelocity == 0) //Only moving left
+		{
+			angle = 270;
+		}
+		else if(xVelocity == 0 && yVelocity < 0) //Only moving up
+		{
+			angle = 0;
+		}
+		else if(xVelocity == 0 && yVelocity > 0) //Only moving down
+		{
+			angle = 180;
+		}
+		else if(xVelocity > 0 && yVelocity > 0) //Going Right Diagonal Down
+		{
+			angle = 90 + 45;
+		}
+		else if(xVelocity > 0 && yVelocity < 0) //Going Right Diagonal Up
+		{
+			angle = 0 + 45;
+		}
+		else if(xVelocity < 0 && yVelocity > 0) //Going Left Diagonal Down
+		{
+			angle = 180 + 45;
+		}
+		else if(xVelocity < 0 && yVelocity < 0) //Going Left Diagonal Up
+		{
+			angle = 270 + 45;
+		}
+		
+		this.rotate(angle);
 		
 		for(int i = 0; i < oHandler.objectList.size(); i++)
 		{
@@ -90,6 +137,15 @@ public class Zombie extends Object
 			{
 				x += xVelocity * -1;
 				y += yVelocity * -1;
+				
+				Player p = (Player)temp;
+				
+				if(!p.isInvincible() && p.getHealth() > 0)
+				{
+					//System.out.println("Deal Damage");
+					p.decrHealth();
+					Timer timer = new Timer(p);
+				}
 			}
 			
 			if(temp.getType() == Object_Type.Zombie && (this.getBounds().intersects(temp.getBounds()) && temp != this))
@@ -103,9 +159,16 @@ public class Zombie extends Object
 	public synchronized void render(Graphics g) //Renders the object again each frame
 	{
 		//g.drawImage(zombieImage, x, y, 25, 25, null);
-		g.drawImage(loader.rotImage(rot, zombieImage), x, y, 44, 44, null); //Draw Zombie Image (Bug with black backgrounds)
+		//g.drawImage(loader.rotImage(rot, zombieImage), x, y, 44, 44, null); //Draw Zombie Image (Bug with black backgrounds)
 		//g.setColor(Color.GREEN);
 		//g.fillRect(x, y, 25, 25);
+		
+		g.drawImage(img, x, y, 44, 44, null);
+	}
+	
+	public synchronized void rotate(int angle)
+	{
+		img = loader.rotImage(angle, zombieImage);
 	}
 		
 	public synchronized void decrHealth() //Decrements zombie's health
