@@ -63,7 +63,8 @@ public class MouseInput extends MouseAdapter
 			int posX;
 			int posY;
 			
-			//Calculate x position
+			//Calculate x position (Ignore this)
+			/*
 			if(e.getX() > player.getX() + 44) //Right bound
 			{
 				posX = player.getX() + 44;
@@ -77,7 +78,7 @@ public class MouseInput extends MouseAdapter
 				posX = e.getX();
 			}
 			
-			//Calculate y position
+			//Calculate y position (Ignore this too)
 	
 			if(e.getY() + 100 > player.getY() + 44) //Right bound
 			{
@@ -91,6 +92,11 @@ public class MouseInput extends MouseAdapter
 			{
 				posY = e.getY() + 20;
 			}
+			*/
+			
+			//Spawn bullets in the center of the character
+			posX = player.getX() + 19;
+			posY = player.getY() + 19;
 				
 			try
 			{

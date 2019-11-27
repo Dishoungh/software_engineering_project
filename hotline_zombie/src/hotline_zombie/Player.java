@@ -93,11 +93,10 @@ public class Player extends Object
 				y += yVelocity * -1;
 			}
 			
-			if(temp.getType() == Object_Type.Zombie && (this.getBounds().intersects(temp.getBounds()))) //If player intersects with a Zombie
+			if(temp.getType() == Object_Type.Zombie && (this.getBounds().intersects(temp.getBounds()) || temp.getBounds().intersects(this.getBounds()))) //If player intersects with a Zombie
 			{
 				x += xVelocity * -1;
 				y += yVelocity * -1;
-				
 				
 				//Take health off
 				if(!invincible)
@@ -106,7 +105,6 @@ public class Player extends Object
 					{
 						decrHealth();
 					}
-					setInvincibility(true);
 					
 					//Count down invinciblity for 2 seconds
 					Timer timer = new Timer(this);

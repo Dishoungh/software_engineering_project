@@ -21,6 +21,7 @@ public class Timer implements Runnable
 	private synchronized void start()
 	{
 		stop = false;
+		player.setInvincibility(true);
 		timerThread = new Thread(this);
 		timerThread.start();	
 	}
